@@ -76,14 +76,18 @@
     return tableTitle;
 }
 
+- (NSString *) tableView: (UITableView *) tableView titleForFooterInSection: (NSInteger)section{
+    NSString *tableTitle = [[NSString alloc] initWithFormat:@" "];
+    return tableTitle;
+}
+
 - (NSInteger *) tableView: (UITableView *) tableView numberOfRowsInSection: (NSInteger)section{
     
     return [inputData count];  // return number of rows in sections
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-   
-    NSLog(@"This stopped it!");
+    
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier /*forIndexPath:indexPath*/];
     
@@ -92,6 +96,8 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
     //configure cell
+    UIFont *myFont = [ UIFont fontWithName: @"Arial" size: 10.0 ];
+    cell.textLabel.font  = myFont;
     cell.textLabel.text = [self.inputData objectAtIndex:indexPath.row];
     
     return cell;
@@ -111,7 +117,7 @@
 - (NSString *) filePath{
  NSArray *paths = NSSearchPathForDirectoriesInDomains
  (NSDocumentDirectory, NSUserDomainMask, YES);
- return [[paths objectAtIndex:0] stringByAppendingPathComponent:@"warn.sql"];
+ return [[paths objectAtIndex:0] stringByAppendingPathComponent:@"warn2.sql"];
  }
  
  - (void)openDB{

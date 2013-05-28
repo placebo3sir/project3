@@ -77,8 +77,8 @@
             CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake([fieldStr3 integerValue],
                                                                           [fieldStr4 integerValue]);
             
-            CLLocationCoordinate2D coordinate2 = CLLocationCoordinate2DMake(LAT_NETHERLANDS,
-                                                                           LON_NETHERLANDS);
+           // CLLocationCoordinate2D coordinate2 = CLLocationCoordinate2DMake(LAT_NETHERLANDS,
+             //                                                              LON_NETHERLANDS);
             
             MapViewController* pinAnnotation =
             [[MapViewController alloc] initWithCoordinates:coordinate
@@ -86,11 +86,11 @@
                                               description:fieldStr];
             [_mapView addAnnotation:pinAnnotation];
             
-            MapViewController* pinAnnotation2 =
+            /*MapViewController* pinAnnotation2 =
             [[MapViewController alloc] initWithCoordinates:coordinate2
                                                  placeName:nil
                                                description:@"Nederland"];
-            [_mapView addAnnotation:pinAnnotation2];
+            [_mapView addAnnotation:pinAnnotation2];*/
             
             [inputData addObject:str];
             
@@ -125,7 +125,7 @@
 - (NSString *) filePath{
     NSArray *paths = NSSearchPathForDirectoriesInDomains
     (NSDocumentDirectory, NSUserDomainMask, YES);
-    return [[paths objectAtIndex:0] stringByAppendingPathComponent:@"warn.sql"];
+    return [[paths objectAtIndex:0] stringByAppendingPathComponent:@"warn2.sql"];
 }
 
 - (void)openDB{

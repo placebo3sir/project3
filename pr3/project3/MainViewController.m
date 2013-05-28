@@ -32,7 +32,7 @@ const int FORMULA_DIVERDER = 1000;
 - (NSString *) filePath{
     NSArray *paths = NSSearchPathForDirectoriesInDomains
     (NSDocumentDirectory, NSUserDomainMask, YES);
-    return [[paths objectAtIndex:0] stringByAppendingPathComponent:@"warn.sql"];
+    return [[paths objectAtIndex:0] stringByAppendingPathComponent:@"warn2.sql"];
 }
 
 - (void)openDB{

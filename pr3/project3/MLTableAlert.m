@@ -149,7 +149,7 @@
 	[self addSubview:self.alertBg];
 	
 	// setting alert background image
-	UIImageView *alertBgImage = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"MLTableAlertBackground.png"] stretchableImageWithLeftCapWidth:15 topCapHeight:30]];
+	UIImageView *alertBgImage = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"tanButton.png"] stretchableImageWithLeftCapWidth:15 topCapHeight:30]];
 	[self.alertBg addSubview:alertBgImage];
 	
 	// alert title creation
@@ -199,8 +199,8 @@
 	[self.cancelButton setTitle:self.cancelButtonTitle forState:UIControlStateNormal];
 	[self.cancelButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 	[self.cancelButton setBackgroundColor:[UIColor clearColor]];
-	[self.cancelButton setBackgroundImage:[[UIImage imageNamed:@"MLTableAlertButton.png"] stretchableImageWithLeftCapWidth:5 topCapHeight:0] forState:UIControlStateNormal];
-	[self.cancelButton setBackgroundImage:[[UIImage imageNamed:@"MLTableAlertButtonPressed.png"] stretchableImageWithLeftCapWidth:5 topCapHeight:0] forState:UIControlStateHighlighted];
+	[self.cancelButton setBackgroundImage:[[UIImage imageNamed:@"blackButton.png"] stretchableImageWithLeftCapWidth:5 topCapHeight:0] forState:UIControlStateNormal];
+	[self.cancelButton setBackgroundImage:[[UIImage imageNamed:@"blueButton.png"] stretchableImageWithLeftCapWidth:5 topCapHeight:0] forState:UIControlStateHighlighted];
 	self.cancelButton.opaque = NO;
 	self.cancelButton.layer.cornerRadius = 5.0;
 	[self.cancelButton addTarget:self action:@selector(dismissTableAlert) forControlEvents:UIControlEventTouchUpInside];
