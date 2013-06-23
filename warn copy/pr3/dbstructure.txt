@@ -1,6 +1,0 @@
-Database Structure
-
-date - text primary key
-pull - int
-location - double
-weight - int
