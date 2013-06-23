@@ -1,8 +1,0 @@
-//
-// Prefix header for all source files of the 'project3Tests' target in the 'project3Tests' project
-//
-
-#ifdef __OBJC__
-    #import <UIKit/UIKit.h>
-    #import <Foundation/Foundation.h>
-#endif
