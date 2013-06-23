@@ -127,4 +127,21 @@
  }
  }
 
+- (IBAction)deleteAllTableData:(id)sender{
+    
+    NSString * tableName = @"WarnHistory";
+    
+    char *err;
+    NSString *sql = [NSString stringWithFormat:@"DELETE * FROM %@",
+                     tableName];
+    
+    if (sqlite3_exec(db, [sql UTF8String], NULL, NULL, &err) != SQLITE_OK) {
+        sqlite3_close(db);
+        NSAssert(0, @"Could not clear the requested table");
+    }else{
+        NSLog(@"The table has been cleared");
+    }
+    
+}
+
 @end

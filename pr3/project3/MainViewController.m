@@ -41,7 +41,7 @@ const int FORMULA_DIVERDER = 1000;
         sqlite3_close(db);
         NSAssert(0, @"Could not connect to database");
     }else{
-        NSLog(@"Connetected to warn history database");
+        NSLog(@"Connected to warn history database");
     }
 }
 
@@ -57,6 +57,7 @@ const int FORMULA_DIVERDER = 1000;
     self.account = [[MLTableAlert alloc] init];
     self.weight = 1.0;
     [self show];
+    
 	// do any additional setup after loading the view, typically from a nib.
     motionManager = [[CMMotionManager alloc] init];
     motionManager.deviceMotionUpdateInterval = 1.0/60.0;
@@ -172,9 +173,7 @@ const int FORMULA_DIVERDER = 1000;
     }else{
         NSLog(@"The table has been updated");
     }
-    
-    NSLog(@"%@", [self userLocation]);
-    NSLog(@"%@", [self currentDate]);
+
     [self show];
 }
 
@@ -253,6 +252,7 @@ const int FORMULA_DIVERDER = 1000;
     }
 }
 
+#pragma mark - settings for the input
 - (IBAction)showInfo:(id)sender
 {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
@@ -285,7 +285,7 @@ const int FORMULA_DIVERDER = 1000;
     }
 }
 
-#pragma mark - Flipside View Controller
+#pragma mark - Data View Controller
 - (void)dataViewControllerDidFinish:(DataViewController *)controller;
 {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
@@ -299,6 +299,7 @@ const int FORMULA_DIVERDER = 1000;
     }
 }
 
+#pragma mark - show the data in a table
 - (IBAction)showData:(id)sender
 {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
@@ -331,6 +332,21 @@ const int FORMULA_DIVERDER = 1000;
     }
 }
 
+#pragma mark - Map View Controller
+- (void)mapViewControllerDidFinish:(MapViewController *)controller;
+{
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        
+        [self dismissViewControllerAnimated:YES completion:nil];
+        
+    } else {
+        
+        [self.dataPopoverController dismissPopoverAnimated:YES];
+        
+    }
+}
+
+#pragma mark - show the place on the map where the pull has been calculated
 - (IBAction)showMap:(id)sender
 {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {

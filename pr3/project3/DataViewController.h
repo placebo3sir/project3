@@ -26,9 +26,11 @@
 @property (weak, nonatomic) id <DataViewControllerDelegate> delegate;
 @property (nonatomic, strong) NSMutableArray *inputData;
 
+- (IBAction)deleteAllTableData:(id)sender;
 - (IBAction)done:(id)sender;
 - (NSString *) filePath;
 - (void) openDB;
 @end
+
 
 // mapkit tutorial
