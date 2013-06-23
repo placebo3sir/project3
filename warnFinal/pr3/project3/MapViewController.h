@@ -32,7 +32,6 @@
 
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 - (IBAction)done:(id)sender;
-- (void)viewWillAppear:(BOOL)animated;
 - (NSString *) filePath;
 - (void) openDB;
 @end

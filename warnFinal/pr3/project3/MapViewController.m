@@ -14,6 +14,7 @@
 #define METERS_PER_MILE  1609.33
 #define LAT_NETHERLANDS 52.30
 #define LON_NETHERLANDS 5.54
+
 @implementation MapViewController
 @synthesize inputData;
 @synthesize coordinate;
@@ -77,21 +78,11 @@
             CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake([fieldStr3 integerValue],
                                                                           [fieldStr4 integerValue]);
             
-           // CLLocationCoordinate2D coordinate2 = CLLocationCoordinate2DMake(LAT_NETHERLANDS,
-             //                                                              LON_NETHERLANDS);
-            
             MapViewController* pinAnnotation =
             [[MapViewController alloc] initWithCoordinates:coordinate
                                                 placeName:nil
                                               description:fieldStr];
             [_mapView addAnnotation:pinAnnotation];
-            
-            /*MapViewController* pinAnnotation2 =
-            [[MapViewController alloc] initWithCoordinates:coordinate2
-                                                 placeName:nil
-                                               description:@"Nederland"];
-            [_mapView addAnnotation:pinAnnotation2];*/
-            
             [inputData addObject:str];
             
         }
@@ -110,17 +101,6 @@
 {
     [self.delegate dataViewControllerDidFinish:self];
 }
-/*
-- (void)viewWillAppear:(BOOL)animated{
-    
-    CLLocationCoordinate2D zoomLocation;
-    zoomLocation.latitude = LAT_NETHERLANDS;
-    zoomLocation.longitude = LON_NETHERLANDS;
-    
-    MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(zoomLocation, 0.5*METERS_PER_MILE, 0.5*METERS_PER_MILE );
-    
-    [_mapView setRegion:viewRegion animated:YES];
-}*/
 
 - (NSString *) filePath{
     NSArray *paths = NSSearchPathForDirectoriesInDomains
@@ -158,7 +138,6 @@
         pinView.pinColor = MKPinAnnotationColorRed;
         pinView.animatesDrop = YES;
     }
-    
     
     return pinView;
 }

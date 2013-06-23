@@ -194,17 +194,17 @@ const int FORMULA_DIVERDER = 1000;
 
 -(IBAction)showTableAlert:(id)sender
 {
-    NSMutableArray *myColors;
+    NSMutableArray *load;
     
     if(self.typeOfLoad2 == 0)
-        myColors = [NSMutableArray arrayWithObjects: @"Concrete", @"Gravel", @"Dirt", @"Steel rail", nil];
+        load = [NSMutableArray arrayWithObjects: @"Concrete", @"Gravel", @"Dirt", @"Steel rail", nil];
     else
-        myColors = [NSMutableArray arrayWithObjects: @"Steel on steel", @"Stone on stone", @"Steel on Wood", @"Steel on ice", nil];
+        load = [NSMutableArray arrayWithObjects: @"Steel on steel", @"Stone on stone", @"Steel on Wood", @"Steel on ice", nil];
     
 	// create the alert
 	self.alert = [MLTableAlert tableAlertWithTitle:@"Choose an option..." cancelButtonTitle:@"Cancel" numberOfRows:^NSInteger (NSInteger section)
                   {
-                        return [myColors count];
+                        return [load count];
                   }
                         andCells:^UITableViewCell* (MLTableAlert *anAlert, NSIndexPath *indexPath)
                   {
@@ -213,7 +213,7 @@ const int FORMULA_DIVERDER = 1000;
                       if (cell == nil)
                           cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
                       
-                      cell.textLabel.text = [NSString stringWithFormat:@"%d. %@", indexPath.row+1,  [myColors objectAtIndex:indexPath.row] ];
+                      cell.textLabel.text = [NSString stringWithFormat:@"%d. %@", indexPath.row+1,  [load objectAtIndex:indexPath.row] ];
                       
                       return cell;
                   }];
@@ -222,7 +222,7 @@ const int FORMULA_DIVERDER = 1000;
     [self.alert configureSelectionBlock:^(NSIndexPath *selectedIndex){
         
         self.resultLabel.text = [NSString stringWithFormat:@"%d", selectedIndex.row];
-        self.selectLabel.text = [NSString stringWithFormat:@"%@", [myColors objectAtIndex:selectedIndex.row] ];
+        self.selectLabel.text = [NSString stringWithFormat:@"%@", [load objectAtIndex:selectedIndex.row] ];
         
     } andCompletionBlock:^{
         

@@ -53,19 +53,4 @@
     [self.delegate flipsideViewControllerDidFinish:self didFinishEnteringItem:self.tOL startVal:self.sV weight:self.weight];
 }
 
-- (IBAction)load:(id)sender
-{
-    
-}
-
-- (IBAction)metric:(id)sender
-{
-
-}
-
-- (IBAction)historyLayout:(id)sender
-{
-    
-}
-
 @end
