@@ -26,18 +26,15 @@
               description:(NSString *)description;
 {
     self = [super init];
-    if (self)
-    {
+    if (self) {
         coordinate = location;
         title = placeName;
         subtitle = description;
     }
-    
     return self;
 }
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.contentSizeForViewInPopover = CGSizeMake(320.0, 480.0);
@@ -45,17 +42,14 @@
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     inputData = [[NSMutableArray alloc] init];
     [self openDB];
     NSString *sql = [NSString stringWithFormat:@"SELECT * FROM WarnHistory"];
     sqlite3_stmt *statement;
     
     if (sqlite3_prepare_v2(db, [sql UTF8String], -1, &statement, nil) == SQLITE_OK) {
-        
         while (sqlite3_step(statement) == SQLITE_ROW) {
-            
             // pull
             char *field1 = (char *) sqlite3_column_text(statement, 0);
             NSString *fieldStr = [[NSString alloc] initWithUTF8String:field1];
@@ -73,7 +67,7 @@
             NSString *fieldStr4 = [[NSString alloc] initWithUTF8String:field4];
 
             
-          NSString *str = [[NSString alloc] initWithFormat:@"%@ - %@ - (%@, %@)", fieldStr, fieldStr2, fieldStr3, fieldStr4 ];
+            NSString *str = [[NSString alloc] initWithFormat:@"%@ - %@ - (%@, %@)", fieldStr, fieldStr2, fieldStr3, fieldStr4 ];
             
             CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake([fieldStr3 integerValue],
                                                                           [fieldStr4 integerValue]);
@@ -84,61 +78,51 @@
                                               description:fieldStr];
             [_mapView addAnnotation:pinAnnotation];
             [inputData addObject:str];
-            
         }
     }
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
 }
 
-- (void)didReceiveMemoryWarning
-{
+- (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-- (IBAction)done:(id)sender
-{
+- (IBAction)done:(id)sender {
     [self.delegate dataViewControllerDidFinish:self];
 }
 
-- (NSString *) filePath{
+- (NSString *) filePath {
     NSArray *paths = NSSearchPathForDirectoriesInDomains
     (NSDocumentDirectory, NSUserDomainMask, YES);
     return [[paths objectAtIndex:0] stringByAppendingPathComponent:@"warn2.sql"];
 }
 
-- (void)openDB{
-    if (sqlite3_open([[self filePath] UTF8String], &db) != SQLITE_OK){
+- (void)openDB {
+    if (sqlite3_open([[self filePath] UTF8String], &db) != SQLITE_OK) {
         sqlite3_close(db);
         NSAssert(0, @"Could not connect to database");
     }
 }
 
-
-
 - (MKAnnotationView *)mapView:(MKMapView *)mapView
-            viewForAnnotation:(id <MKAnnotation>)annotation
-{
-    if ([annotation isKindOfClass:[MKUserLocation class]])
-    {
+            viewForAnnotation:(id <MKAnnotation>)annotation {
+    if ([annotation isKindOfClass:[MKUserLocation class]]) {
         return nil;
     }
-    
     static NSString* myIdentifier = @"myIndentifier";
     MKPinAnnotationView* pinView = (MKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:myIdentifier];
     
-    if (!pinView)
-    {
+    if (!pinView) {
         pinView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:myIdentifier];
         pinView.pinColor = MKPinAnnotationColorRed;
         pinView.animatesDrop = YES;
-    }else{
+    } else {
         pinView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:myIdentifier];
         pinView.pinColor = MKPinAnnotationColorRed;
         pinView.animatesDrop = YES;
     }
-    
     return pinView;
 }
 

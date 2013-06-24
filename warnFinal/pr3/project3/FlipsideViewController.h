@@ -15,7 +15,7 @@
 - (void)flipsideViewControllerDidFinish:(FlipsideViewController *)controller didFinishEnteringItem:(NSInteger)typeOfLoad startVal:(NSInteger )sV weight:(double)weight;
 @end
 
-@interface FlipsideViewController : UIViewController{
+@interface FlipsideViewController : UIViewController {
     IBOutlet UISegmentedControl *typeOfLoad;
     IBOutlet UISegmentedControl *metric;
 }

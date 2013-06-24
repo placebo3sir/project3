@@ -19,7 +19,6 @@ typedef UITableViewCell* (^MLTableAlertTableCellsBlock)(MLTableAlert *alert, NSI
 typedef void (^MLTableAlertRowSelectionBlock)(NSIndexPath *selectedIndex);
 typedef void (^MLTableAlertCompletionBlock)(void);
 
-
 @interface MLTableAlert : UIView <UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) UITableView *table;
 @property (nonatomic, assign) CGFloat height;

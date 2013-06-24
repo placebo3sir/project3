@@ -10,7 +10,6 @@
 
 #import "MLTableAlert.h"
 
-
 #define kTableAlertWidth     284.0
 #define kLateralInset         12.0
 #define kVerticalInset         8.0
@@ -19,17 +18,13 @@
 #define kCancelButtonMargin    5.0
 #define kTitleLabelMargin     12.0
 
-
 @interface MLTableAlert ()
 @property (nonatomic, strong) UIView *alertBg;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UIButton *cancelButton;
-
 @property (nonatomic, strong) NSString *title;
 @property (nonatomic, strong) NSString *cancelButtonTitle;
-
 @property (nonatomic) BOOL cellSelected;
-
 @property (nonatomic, strong) MLTableAlertNumberOfRowsBlock numberOfRows;
 @property (nonatomic, strong) MLTableAlertTableCellsBlock cells;
 
@@ -40,8 +35,6 @@
 
 @end
 
-
-
 @implementation MLTableAlert
 
 #pragma mark - MLTableAlert Class Method
@@ -51,28 +44,23 @@
 	return [[self alloc] initWithTitle:title cancelButtonTitle:cancelBtnTitle numberOfRows:rowsBlock andCells:cellsBlock];
 }
 
-
 #pragma mark - MLTableAlert Initialization
 
 -(id)initWithTitle:(NSString *)title cancelButtonTitle:(NSString *)cancelButtonTitle numberOfRows:(MLTableAlertNumberOfRowsBlock)rowsBlock andCells:(MLTableAlertTableCellsBlock)cellsBlock
 {
 	// Throw exception if rowsBlock or cellsBlock is nil
-	if (rowsBlock == nil || cellsBlock == nil)
-	{
+	if (rowsBlock == nil || cellsBlock == nil) {
 		[[NSException exceptionWithName:@"rowsBlock and cellsBlock Error" reason:@"These blocks MUST NOT be nil" userInfo:nil] raise];
 		return nil;
 	}
-	
 	self = [super init];
-	if (self)
-	{
+	if (self) {
 		_numberOfRows = rowsBlock;
 		_cells = cellsBlock;
 		_title = title;
 		_cancelButtonTitle = cancelButtonTitle;
 		_height = kMinAlertHeight;	// Defining default (and minimum) alert height
 	}
-	
 	return self;
 }
 
@@ -84,8 +72,7 @@
 	self.completionBlock = comBlock;
 }
 
--(void)createBackgroundView
-{
+-(void)createBackgroundView {
 	// reset cellSelected value
 	self.cellSelected = NO;
 	
@@ -104,8 +91,7 @@
 	}];
 }
 
--(void)animateIn
-{
+-(void)animateIn {
 	// UIAlertView-like pop in animation
 	self.alertBg.transform = CGAffineTransformMakeScale(0.6, 0.6);
 	[UIView animateWithDuration:0.2 animations:^{
@@ -121,8 +107,7 @@
 	}];
 }
 
--(void)animateOut
-{
+-(void)animateOut {
 	[UIView animateWithDuration:1.0/7.5 animations:^{
 		self.alertBg.transform = CGAffineTransformMakeScale(0.9, 0.9);
 	} completion:^(BOOL finished) {
@@ -140,8 +125,7 @@
 	}];
 }
 
--(void)show
-{
+-(void)show {
 	[self createBackgroundView];
 	
 	// alert view creation
@@ -218,8 +202,7 @@
 	[self animateIn];
 }
 
--(void)dismissTableAlert
-{
+-(void)dismissTableAlert {
 	// dismiss the alert with its animation
 	[self animateOut];
 	
@@ -232,44 +215,38 @@
 }
 
 // Allows the alert to be first responder
--(BOOL)canBecomeFirstResponder
-{
+-(BOOL)canBecomeFirstResponder {
 	return YES;
 }
 
 // Alert height setter
--(void)setHeight:(CGFloat)height
-{
+-(void)setHeight:(CGFloat)height {
 	if (height > kMinAlertHeight)
 		_height = height;
 	else
 		_height = kMinAlertHeight;
 }
 
-#pragma mark - UITableViewDataSource
+// UITableViewDataSource
 
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
 	// TODO: Allow multiple sections
 	return 1;
 }
 
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 	// according to the numberOfRows block code
 	return self.numberOfRows(section);
 }
 
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	// according to the cells block code
 	return self.cells(self, indexPath);
 }
 
-#pragma mark - UITableViewDelegate
+// UITableViewDelegate
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 	
 	// set cellSelected to YES so the completionBlock won't be
@@ -289,8 +266,7 @@
 @synthesize degree2=_degree2;
 @synthesize capacity=_capacity;
 
-- (id)init
-{
+- (id)init {
     if (self = [super init]) {
         self.degree = 0;
         self.capacity2 = 0;

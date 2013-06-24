@@ -28,7 +28,6 @@ extern const int FORMULA_DIVIDER;
 
 @class MLTableAlert;
 
-
 @interface MainViewController : UIViewController <FlipsideViewControllerDelegate, DataViewControllerDelegate,
 MapViewControllerDelegate>{
     IBOutlet CLLocationManager *locationManager;

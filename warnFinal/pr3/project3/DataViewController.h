@@ -18,7 +18,7 @@
 @end
 
 
-@interface DataViewController : UIViewController{
+@interface DataViewController : UIViewController {
         sqlite3 *db;
 }
 
@@ -31,6 +31,3 @@
 - (NSString *) filePath;
 - (void) openDB;
 @end
-
-
-// mapkit tutorial

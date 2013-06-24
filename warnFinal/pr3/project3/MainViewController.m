@@ -11,6 +11,7 @@
 //#import "DataViewController.h"
 //#import "MapViewController.h"
 
+// constants used for pull calculation
 const double ANGLE_CONSTANT = 2.222222;
 const int ANGLE_DIVIDER = 100;
 const int LINEPULL_CONSTANT = 707;
@@ -29,26 +30,24 @@ const int FORMULA_DIVERDER = 1000;
 @synthesize calculatePullLabel=_calculatePullLabel;
 @synthesize infoDisplayLabel5;
 
-- (NSString *) filePath{
+- (NSString *) filePath {
     NSArray *paths = NSSearchPathForDirectoriesInDomains
     (NSDocumentDirectory, NSUserDomainMask, YES);
     return [[paths objectAtIndex:0] stringByAppendingPathComponent:@"warn2.sql"];
 }
 
-- (void)openDB{
-    
-    if (sqlite3_open([[self filePath] UTF8String], &db) != SQLITE_OK){
+- (void)openDB {
+    if (sqlite3_open([[self filePath] UTF8String], &db) != SQLITE_OK) {
         sqlite3_close(db);
         NSAssert(0, @"Could not connect to database");
-    }else{
+    } else {
         NSLog(@"Connected to warn history database");
     }
 }
 
 #pragma mark - View lifecycle
 #define degrees(x) (180.0 * x / M_PI)
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [self openDB];
     [self createTable: @"WarnHistory" withField1: @"Date" withField2:@"Pull" withField3:@"Lat" withField4:@"Lon" withField5:@"Weight"];
     
@@ -58,33 +57,32 @@ const int FORMULA_DIVERDER = 1000;
     self.weight = 1.0;
     [self show];
     
-	// do any additional setup after loading the view, typically from a nib.
+	// proces device motion (angle)
     motionManager = [[CMMotionManager alloc] init];
     motionManager.deviceMotionUpdateInterval = 1.0/60.0;
     [motionManager startDeviceMotionUpdates];
     
+    // proces device location
     locationManager = [[CLLocationManager alloc] init];
     locationManager.distanceFilter = kCLDistanceFilterNone; // whenever we move
     locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters; // 100 m
     [locationManager startUpdatingLocation];
     
-
     timer = [NSTimer scheduledTimerWithTimeInterval:(1.0/60.0) target:self selector:@selector(readAngle) userInfo:nil repeats:YES];
 }
 
-- (void)viewDidUnload
-{
+- (void)viewDidUnload {
     [self setInfoDisplayLabel5:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
 
-- (void)didReceiveMemoryWarning
-{
+- (void)didReceiveMemoryWarning {
     // Dispose of any resources that can be recreated.
     [super didReceiveMemoryWarning];
 }
+
 // read the angle in relatie to the ground in which the device is hold. Ouputs the pitch in degrees
 -(void)readAngle {
     CMAttitude *attitude;
@@ -94,14 +92,14 @@ const int FORMULA_DIVERDER = 1000;
     infoDisplayLabel5.text = pitch;
 }
 
-
-
+// read the location of the device
 - (NSString *)userLocation {
     NSString *theLocation = [NSString stringWithFormat:@"latitude: %f longitude: %f", locationManager.location.coordinate.latitude, locationManager.location.coordinate.longitude];
     
     return theLocation;
 }
 
+// read date and time
 - (NSString *)currentDate {
     NSDate *date = [NSDate date];
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc]init];
@@ -111,13 +109,15 @@ const int FORMULA_DIVERDER = 1000;
     return dateString;
 }
 
-- (IBAction)calculatePull:(id)sender
-{
+// here the actual pull is calculated
+- (IBAction)calculatePull:(id)sender {
     CMAttitude *attitude;
     CMDeviceMotion *motion = motionManager.deviceMotion;
     attitude = motion.attitude;
-
-    if(self.typeOfLoad2 == 0){
+    
+    // in relation to the 'type of load' selected, use switch statement
+    // to use correct startinging values for calculation
+    if(self.typeOfLoad2 == 0){ // equals 'type of load' is rolling
         switch ([self.resultLabel.text  integerValue]) {
             case 0:
                 self.startValue = 15;
@@ -132,7 +132,7 @@ const int FORMULA_DIVERDER = 1000;
                 self.startValue = 2;
                 break;
         }
-    }else if(self.typeOfLoad2 != 0){
+    } else if(self.typeOfLoad2 != 0) { // equals 'type of load' is static
         switch ([self.resultLabel.text integerValue]) {
             case 0:
                 self.startValue = 150;
@@ -155,7 +155,7 @@ const int FORMULA_DIVERDER = 1000;
     // hide keyboard
     [self.rowsNumField resignFirstResponder];
     
-    // calculatePull amount
+    // calculate pitch in degrees
     self.account.degree += degrees(attitude.pitch);
     
     // clear input
@@ -164,62 +164,56 @@ const int FORMULA_DIVERDER = 1000;
     // calculatePull amount
     self.account.degree2 = (((degrees(attitude.pitch) * ANGLE_CONSTANT / ANGLE_DIVIDER) * LINEPULL_CONSTANT) + self.startValue + CONSTANT_N ) * ([self.rowsNumField.text integerValue] / self.weight / FORMULA_DIVERDER);
     
+    // insert into database
     NSString *sql = [NSString stringWithFormat:@"INSERT INTO WarnHistory ('date', 'pull', 'lat', 'lon', 'weight') VALUES ('%@', '%lld', '%f', '%f', '%d')", [self currentDate], self.account.degree2, locationManager.location.coordinate.latitude,locationManager.location.coordinate.longitude, [self.rowsNumField.text integerValue]];
     
     char *err;
     if (sqlite3_exec(db, [sql UTF8String], NULL, NULL, &err) != SQLITE_OK) {
         sqlite3_close(db);
         NSAssert(0, @"Could not insert into the requested table");
-    }else{
+    } else {
         NSLog(@"The table has been updated");
     }
-
     [self show];
 }
 
-- (void)show
-{
-    // show balance
+- (void)show {
+    // show pull amount
     self.balanceLabel.text = [NSString stringWithFormat:@"%llu °", self.account.degree];
-    
     // show input
     self.calculatePullLabel.text = [NSString stringWithFormat:@"%llu N", self.account.degree2];
-    
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
--(IBAction)showTableAlert:(id)sender
-{
+// the popup table where users can pick a underground type
+-(IBAction)showTableAlert:(id)sender {
     NSMutableArray *load;
     
-    if(self.typeOfLoad2 == 0)
+    if(self.typeOfLoad2 == 0) // 'type of load' = rolling
         load = [NSMutableArray arrayWithObjects: @"Concrete", @"Gravel", @"Dirt", @"Steel rail", nil];
     else
         load = [NSMutableArray arrayWithObjects: @"Steel on steel", @"Stone on stone", @"Steel on Wood", @"Steel on ice", nil];
     
-	// create the alert
-	self.alert = [MLTableAlert tableAlertWithTitle:@"Choose an option..." cancelButtonTitle:@"Cancel" numberOfRows:^NSInteger (NSInteger section)
-                  {
+	// popup the table
+	self.alert = [MLTableAlert tableAlertWithTitle:@"Choose an option..." cancelButtonTitle:@"Cancel" numberOfRows:^NSInteger (NSInteger section){
                         return [load count];
                   }
-                        andCells:^UITableViewCell* (MLTableAlert *anAlert, NSIndexPath *indexPath)
-                  {
-                      static NSString *CellIdentifier = @"CellIdentifier";
-                      UITableViewCell *cell = [anAlert.table dequeueReusableCellWithIdentifier:CellIdentifier];
-                      if (cell == nil)
-                          cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+                        andCells:^UITableViewCell* (MLTableAlert *anAlert, NSIndexPath *indexPath) {
+                        static NSString *CellIdentifier = @"CellIdentifier";
+                        UITableViewCell *cell = [anAlert.table dequeueReusableCellWithIdentifier:CellIdentifier];
+                        if (cell == nil)
+                        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
                       
-                      cell.textLabel.text = [NSString stringWithFormat:@"%d. %@", indexPath.row+1,  [load objectAtIndex:indexPath.row] ];
+                        cell.textLabel.text = [NSString stringWithFormat:@"%d. %@", indexPath.row+1,  [load objectAtIndex:indexPath.row] ];
                       
-                      return cell;
+                        return cell;
                   }];
     
     // configure actions to perform
-    [self.alert configureSelectionBlock:^(NSIndexPath *selectedIndex){
+    [self.alert configureSelectionBlock:^(NSIndexPath *selectedIndex) {
         
         self.resultLabel.text = [NSString stringWithFormat:@"%d", selectedIndex.row];
         self.selectLabel.text = [NSString stringWithFormat:@"%@", [load objectAtIndex:selectedIndex.row] ];
@@ -227,15 +221,13 @@ const int FORMULA_DIVERDER = 1000;
     } andCompletionBlock:^{
         
         self.resultLabel.text = @"Cancel Button Pressed\nNo Cells Selected";
-        
     }];
-	// Setting custom alert height
+	// Setting custom popup height
 	self.alert.height = 350;
-    
 	[self.alert show];
 }
 
-#pragma mark - Flipside View Controller
+// Flipside View Controller
 - (void)flipsideViewControllerDidFinish:(FlipsideViewController *)controller didFinishEnteringItem:(NSInteger)typeOfLoad startVal:(NSInteger )sV weight:(double)weight;
 {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
@@ -246,15 +238,12 @@ const int FORMULA_DIVERDER = 1000;
         self.weight = weight;
         
     } else {
-        
         [self.flipsidePopoverController dismissPopoverAnimated:YES];
-        
     }
 }
 
-#pragma mark - settings for the input
-- (IBAction)showInfo:(id)sender
-{
+// Settings for the input
+- (IBAction)showInfo:(id)sender {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         
         FlipsideViewController *controller = [[FlipsideViewController alloc] initWithNibName:@"FlipsideViewController" bundle:nil];
@@ -264,116 +253,77 @@ const int FORMULA_DIVERDER = 1000;
         [self presentViewController:controller animated:YES completion:nil];
         
     } else {
-        
         if (!self.flipsidePopoverController) {
-            
             FlipsideViewController *controller = [[FlipsideViewController alloc] initWithNibName:@"FlipsideViewController" bundle:nil];
-            
             controller.delegate = self;
-            
             self.flipsidePopoverController = [[UIPopoverController alloc] initWithContentViewController:controller];
         }
-        
         if ([self.flipsidePopoverController isPopoverVisible]) {
-            
             [self.flipsidePopoverController dismissPopoverAnimated:YES];
             
         } else {
-            
             [self.flipsidePopoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
         }
     }
 }
 
-#pragma mark - Data View Controller
-- (void)dataViewControllerDidFinish:(DataViewController *)controller;
-{
+// Data View Controller
+- (void)dataViewControllerDidFinish:(DataViewController *)controller; {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        
         [self dismissViewControllerAnimated:YES completion:nil];
-        
     } else {
-        
         [self.dataPopoverController dismissPopoverAnimated:YES];
-        
     }
 }
 
-#pragma mark - show the data in a table
-- (IBAction)showData:(id)sender
-{
+// Show the data in a table
+- (IBAction)showData:(id)sender {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        
         DataViewController *controller2 = [[DataViewController alloc] initWithNibName:@"DataViewController" bundle:nil];
-        
         controller2.delegate = self;
         controller2.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
         [self presentViewController:controller2 animated:YES completion:nil];
-        
     } else {
-        
         if (!self.dataPopoverController) {
-            
             DataViewController *controller2 = [[DataViewController alloc] initWithNibName:@"DataViewController" bundle:nil];
-            
             controller2.delegate = self;
-            
             self.dataPopoverController = [[UIPopoverController alloc] initWithContentViewController:controller2];
         }
-        
         if ([self.dataPopoverController isPopoverVisible]) {
-            
             [self.dataPopoverController dismissPopoverAnimated:YES];
-            
         } else {
-            
             [self.dataPopoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
         }
     }
 }
 
-#pragma mark - Map View Controller
+// Map View Controller
 - (void)mapViewControllerDidFinish:(MapViewController *)controller;
 {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        
         [self dismissViewControllerAnimated:YES completion:nil];
-        
     } else {
-        
         [self.dataPopoverController dismissPopoverAnimated:YES];
-        
     }
 }
 
-#pragma mark - show the place on the map where the pull has been calculated
-- (IBAction)showMap:(id)sender
-{
+// Show the place on the map where the pull has been calculated
+- (IBAction)showMap:(id)sender {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        
         MapViewController *controller3 = [[MapViewController alloc] initWithNibName:@"MapViewController" bundle:nil];
-        
         controller3.delegate = self;
         controller3.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
         [self presentViewController:controller3 animated:YES completion:nil];
         
     } else {
-        
         if (!self.mapPopoverController) {
-            
             MapViewController *controller3 = [[MapViewController alloc] initWithNibName:@"MapViewController" bundle:nil];
-            
             controller3.delegate = self;
-            
             self.mapPopoverController = [[UIPopoverController alloc] initWithContentViewController:controller3];
         }
-        
         if ([self.mapPopoverController isPopoverVisible]) {
-            
             [self.mapPopoverController dismissPopoverAnimated:YES];
-            
         } else {
-            
             [self.mapPopoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
         }
     }
