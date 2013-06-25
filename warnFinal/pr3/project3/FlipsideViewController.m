@@ -35,7 +35,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - Actions
+// actions
 - (IBAction)done:(id)sender {
     self.tOL= typeOfLoad.selectedSegmentIndex;
     self.sV = self.mvc.startValue;

@@ -55,7 +55,7 @@ const int FORMULA_DIVERDER = 1000;
     }
 }
 
-#pragma mark - View lifecycle
+// view lifecycle
 #define degrees(x) (180.0 * x / M_PI)
 - (void)viewDidLoad {
     [self openDB];
@@ -237,7 +237,7 @@ const int FORMULA_DIVERDER = 1000;
 	[self.alert show];
 }
 
-// Flipside View Controller
+// flipside View Controller
 - (void)flipsideViewControllerDidFinish:(FlipsideViewController *)controller didFinishEnteringItem:(NSInteger)typeOfLoad startVal:(NSInteger )sV weight:(double)weight;
 {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
@@ -252,7 +252,7 @@ const int FORMULA_DIVERDER = 1000;
     }
 }
 
-// Settings for the input
+// settings for the input
 - (IBAction)showInfo:(id)sender {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         
@@ -277,7 +277,7 @@ const int FORMULA_DIVERDER = 1000;
     }
 }
 
-// Data View Controller
+// data View Controller
 - (void)dataViewControllerDidFinish:(DataViewController *)controller; {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         [self dismissViewControllerAnimated:YES completion:nil];
@@ -286,7 +286,7 @@ const int FORMULA_DIVERDER = 1000;
     }
 }
 
-// Show the data in a table
+// show the data in a table
 - (IBAction)showData:(id)sender {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         DataViewController *controller2 = [[DataViewController alloc] initWithNibName:@"DataViewController" bundle:nil];
@@ -307,7 +307,7 @@ const int FORMULA_DIVERDER = 1000;
     }
 }
 
-// Map View Controller
+// map View Controller
 - (void)mapViewControllerDidFinish:(MapViewController *)controller;
 {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
@@ -317,7 +317,7 @@ const int FORMULA_DIVERDER = 1000;
     }
 }
 
-// Show the place on the map where the pull has been calculated
+// show the place on the map where the pull has been calculated
 - (IBAction)showMap:(id)sender {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         MapViewController *controller3 = [[MapViewController alloc] initWithNibName:@"MapViewController" bundle:nil];

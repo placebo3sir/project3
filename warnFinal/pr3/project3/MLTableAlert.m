@@ -37,14 +37,14 @@
 
 @implementation MLTableAlert
 
-#pragma mark - MLTableAlert Class Method
+// MLTableAlert Class Method
 
 +(MLTableAlert *)tableAlertWithTitle:(NSString *)title cancelButtonTitle:(NSString *)cancelBtnTitle numberOfRows:(MLTableAlertNumberOfRowsBlock)rowsBlock andCells:(MLTableAlertTableCellsBlock)cellsBlock
 {
 	return [[self alloc] initWithTitle:title cancelButtonTitle:cancelBtnTitle numberOfRows:rowsBlock andCells:cellsBlock];
 }
 
-#pragma mark - MLTableAlert Initialization
+// MLTableAlert Initialization
 
 -(id)initWithTitle:(NSString *)title cancelButtonTitle:(NSString *)cancelButtonTitle numberOfRows:(MLTableAlertNumberOfRowsBlock)rowsBlock andCells:(MLTableAlertTableCellsBlock)cellsBlock
 {
@@ -64,7 +64,7 @@
 	return self;
 }
 
-#pragma mark - Actions
+// Actions
 
 -(void)configureSelectionBlock:(MLTableAlertRowSelectionBlock)selBlock andCompletionBlock:(MLTableAlertCompletionBlock)comBlock
 {
