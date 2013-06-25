@@ -11,6 +11,16 @@
 //#import "DataViewController.h"
 //#import "MapViewController.h"
 
+// constants for 'types of load'
+const int ROLLING_RUBBER_CONCRETE = 15;
+const int ROLLING_RUBBER_GRAVEL = 20;
+const int ROLLING_RUBBER_DIRT = 50;
+const int ROLLINGI_STEEL_RAIL = 2;
+const int SLIDING_STEEL_STEEL= 150;
+const int SLIDING_STONE_STONE= 700;
+const int SLIDING_STEEL_WOOD = 600;
+const int SLIDING_STEEL_ICE = 30;
+
 // constants used for pull calculation
 const double ANGLE_CONSTANT = 2.222222;
 const int ANGLE_DIVIDER = 100;
@@ -120,31 +130,31 @@ const int FORMULA_DIVERDER = 1000;
     if(self.typeOfLoad2 == 0){ // equals 'type of load' is rolling
         switch ([self.resultLabel.text  integerValue]) {
             case 0:
-                self.startValue = 15;
+                self.startValue = ROLLING_RUBBER_CONCRETE;
                 break;
             case 1:
-                self.startValue = 20;
+                self.startValue = ROLLING_RUBBER_GRAVEL;
                 break;
             case 2:
-                self.startValue = 50;
+                self.startValue = ROLLING_RUBBER_DIRT;
                 break;
             default:
-                self.startValue = 2;
+                self.startValue = ROLLINGI_STEEL_RAIL;
                 break;
         }
-    } else if(self.typeOfLoad2 != 0) { // equals 'type of load' is static
+    } else if(self.typeOfLoad2 != 0) { // equals 'type of load' is sliding
         switch ([self.resultLabel.text integerValue]) {
             case 0:
-                self.startValue = 150;
+                self.startValue = SLIDING_STEEL_STEEL;
                 break;
             case 1:
-                self.startValue = 700;
+                self.startValue = SLIDING_STONE_STONE;
                 break;
             case 2:
-                self.startValue = 600;
+                self.startValue = SLIDING_STEEL_WOOD;
                 break;
             default:
-                self.startValue = 30;
+                self.startValue = SLIDING_STEEL_ICE;
                 break;
         }
     }

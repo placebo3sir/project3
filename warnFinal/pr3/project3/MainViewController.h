@@ -20,6 +20,17 @@ CMMotionManager *motionManager;
 NSOperationQueue *opQ;
 NSTimer *timer;
 
+// constants for 'types of load'
+extern const int ROLLING_RUBBER_CONCRETE;
+extern const int ROLLING_RUBBER_GRAVEL;
+extern const int ROLLING_RUBBER_DIRT;
+extern const int ROLLINGI_STEEL_RAIL;
+extern const int SLIDING_STEEL_STEEL;
+extern const int SLIDING_STONE_STONE;
+extern const int SLIDING_STEEL_WOOD;
+extern const int SLIDING_STEEL_ICE;
+
+// constants used for line pull calculation
 extern const double ANGLE_CONSTANT;
 extern const int ANGLE_DIVIDER;
 extern const int LINEPULL_CONSTANT;
