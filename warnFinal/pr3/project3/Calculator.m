@@ -107,21 +107,21 @@ const int FORMULA_DIVIDER = 1000;
     }
     
     // clear input
-    self.m.account.degree = 0;
+    self.degree = 0;
     
     // calculate pitch in degrees
-    self.m.account.degree += degrees(attitude.pitch);
+    self.degree += degrees(attitude.pitch);
     
     // clear input
-    self.m.account.degree2 = 0;
+    self.pull= 0;
     
     // calculatePull amount
-    self.m.account.degree2 = (((degrees(attitude.pitch) * ANGLE_CONSTANT / ANGLE_DIVIDER) * LINEPULL_CONSTANT) + sv + CONSTANT_N ) * ([rwn.text integerValue] / weight / FORMULA_DIVIDER);
+    self.pull= (((degrees(attitude.pitch) * ANGLE_CONSTANT / ANGLE_DIVIDER) * LINEPULL_CONSTANT) + sv + CONSTANT_N ) * ([rwn.text integerValue] / weight / FORMULA_DIVIDER);
 
-        NSLog(@"d: %d, ac: %f, ad: %d, lp: %d, sv: %d, cn: %d, rwwb: %d, w: %f, fd: %d", degrees(attitude.pitch) , ANGLE_CONSTANT , ANGLE_DIVIDER, LINEPULL_CONSTANT,sv , CONSTANT_N,[rwn.text integerValue] ,weight , FORMULA_DIVIDER);
+        NSLog(@"d: %f, ac: %f, ad: %d, lp: %d, sv: %d, cn: %d, rwwb: %d, w: %f, fd: %d", degrees(attitude.pitch) , ANGLE_CONSTANT , ANGLE_DIVIDER, LINEPULL_CONSTANT,sv , CONSTANT_N,[rwn.text integerValue] ,weight , FORMULA_DIVIDER);
         
     // insert into database
-    NSString *sql = [NSString stringWithFormat:@"INSERT INTO WarnHistory ('date', 'pull', 'lat', 'lon', 'weight') VALUES ('%@', '%lld', '%f', '%f', '%d')", [self currentDate], self.m.account.degree2, locationManager2.location.coordinate.latitude,locationManager2.location.coordinate.longitude, [rwn.text integerValue]];
+    NSString *sql = [NSString stringWithFormat:@"INSERT INTO WarnHistory ('date', 'pull', 'lat', 'lon', 'weight') VALUES ('%@', '%lld', '%f', '%f', '%d')", [self currentDate], self.pull, locationManager2.location.coordinate.latitude,locationManager2.location.coordinate.longitude, [rwn.text integerValue]];
      //   NSLog(sql);
     char *err;
     if (sqlite3_exec(db, [sql UTF8String], NULL, NULL, &err) != SQLITE_OK) {
@@ -133,10 +133,10 @@ const int FORMULA_DIVIDER = 1000;
     }
     
     // show pull amount
-    balanceLabel.text = [NSString stringWithFormat:@"%llu °", self.m.account.degree];
+    balanceLabel.text = [NSString stringWithFormat:@"%llu °", self.degree];
     
     // show input
-    calculatePullLabel.text = [NSString stringWithFormat:@"%llu N", self.m.account.degree2];
+    calculatePullLabel.text = [NSString stringWithFormat:@"%llu N", self.pull];
     NSLog(calculatePullLabel.text);
 }
 

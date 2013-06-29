@@ -251,7 +251,6 @@ typedef enum {
     NSLog(@"Calculating..");
     
     [cc calculatePull:self.rowsNumField result:self.resultLabel startValue:self.startValue weight:self.weight load:self.typeOfLoad2 balanceLabel:self.balanceLabel calculatePullLabel:self.calculatePullLabel]; // call calculator to calculate line pull
-    [self show];
 }
 
 @end

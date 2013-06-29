@@ -29,6 +29,8 @@ NSTimer *timer;
 - (void)calculatePull:(UITextField *) rwn result:(UILabel *) result startValue:(NSInteger) sv weight:(double) weight load:(NSInteger)load balanceLabel:(UILabel *) balanceLabel calculatePullLabel:(UILabel *) calculatePullLabel;
 - (void) openDB;
 @property (weak, nonatomic) MainViewController *m;
+@property (assign, nonatomic) unsigned long long pull;
+@property (assign, nonatomic) unsigned long long degree;
 - (NSString *)deviceLocation;
 - (NSString *)currentDate;
 - (NSString *)filePath;
