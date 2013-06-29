@@ -18,7 +18,7 @@
 @implementation MapViewController
 @synthesize inputData;
 @synthesize coordinate;
-@synthesize title;
+@synthesize title2;
 @synthesize subtitle;
 
 - (id)initWithCoordinates:(CLLocationCoordinate2D)location
@@ -28,7 +28,7 @@
     self = [super init];
     if (self) {
         coordinate = location;
-        title = placeName;
+        title2 = placeName;
         subtitle = description;
     }
     return self;
@@ -47,6 +47,8 @@
     [self openDB];
     NSString *sql = [NSString stringWithFormat:@"SELECT * FROM WarnHistory"];
     sqlite3_stmt *statement;
+    
+//    CLLocationCoordinate2D *coordinate
     
     if (sqlite3_prepare_v2(db, [sql UTF8String], -1, &statement, nil) == SQLITE_OK) {
         while (sqlite3_step(statement) == SQLITE_ROW) {
@@ -69,7 +71,7 @@
             
             NSString *str = [[NSString alloc] initWithFormat:@"%@ - %@ - (%@, %@)", fieldStr, fieldStr2, fieldStr3, fieldStr4 ];
             
-            CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake([fieldStr3 integerValue],
+            coordinate = CLLocationCoordinate2DMake([fieldStr3 integerValue],
                                                                           [fieldStr4 integerValue]);
             
             MapViewController* pinAnnotation =

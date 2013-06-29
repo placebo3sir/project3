@@ -76,6 +76,7 @@
 		9BC5DFA8174EBA0800601F81 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BC5DFA7174EBA0800601F81 /* CoreData.framework */; };
 		9BC5DFAB174EBC2500601F81 /* history.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9BC5DFA9174EBC2500601F81 /* history.xcdatamodeld */; };
 		9BC5DFAD174EC98200601F81 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BC5DFAC174EC98200601F81 /* MapKit.framework */; };
+		9BE10C25177EEC25004C46DA /* Calculator.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BE10C24177EEC25004C46DA /* Calculator.m */; };
 		F31C61331712C0B9005291AA /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35B20A2916FC487C00B8BE00 /* SenTestingKit.framework */; };
 		F31C61341712C0B9005291AA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35B209FC16FC487B00B8BE00 /* UIKit.framework */; };
 		F31C61351712C0B9005291AA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35B209FE16FC487B00B8BE00 /* Foundation.framework */; };
@@ -177,6 +178,8 @@
 		9BC5DFA7174EBA0800601F81 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		9BC5DFAA174EBC2500601F81 /* history.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = history.xcdatamodel; sourceTree = "<group>"; };
 		9BC5DFAC174EC98200601F81 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		9BE10C23177EEC25004C46DA /* Calculator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Calculator.h; sourceTree = "<group>"; };
+		9BE10C24177EEC25004C46DA /* Calculator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Calculator.m; sourceTree = "<group>"; };
 		F31C61321712C0B9005291AA /* project3Tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = project3Tests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F31C61381712C0B9005291AA /* project3Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "project3Tests-Info.plist"; sourceTree = "<group>"; };
 		F31C613A1712C0B9005291AA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -277,24 +280,12 @@
 		35B20A0216FC487B00B8BE00 /* project3 */ = {
 			isa = PBXGroup;
 			children = (
-				9BAB800417534FAA007AFDBE /* DataViewController.h */,
-				9BAB800517534FAA007AFDBE /* DataViewController.m */,
-				9BAB800617534FAA007AFDBE /* DataViewController.xib */,
-				35B20A0B16FC487B00B8BE00 /* AppDelegate.h */,
-				35B20A0C16FC487C00B8BE00 /* AppDelegate.m */,
-				35B20A4216FC490900B8BE00 /* MLTableAlert.m */,
-				35B20A4316FC490900B8BE00 /* MLTableAlert.h */,
-				35B20A1416FC487C00B8BE00 /* MainViewController.h */,
-				35B20A1516FC487C00B8BE00 /* MainViewController.m */,
-				9BC5DFA9174EBC2500601F81 /* history.xcdatamodeld */,
-				35B20A1716FC487C00B8BE00 /* FlipsideViewController.h */,
-				35B20A1816FC487C00B8BE00 /* FlipsideViewController.m */,
-				35B20A1A16FC487C00B8BE00 /* MainViewController_iPhone.xib */,
-				9BAB800B1753A2A0007AFDBE /* MapViewController.h */,
-				9BAB800C1753A2A0007AFDBE /* MapViewController.m */,
-				9BAB800D1753A2A1007AFDBE /* MapViewController.xib */,
-				35B20A1D16FC487C00B8BE00 /* MainViewController_iPad.xib */,
-				35B20A2016FC487C00B8BE00 /* FlipsideViewController.xib */,
+				9BE10C29177F35F8004C46DA /* External sources */,
+				9BE10C22177EEBC3004C46DA /* Calculate Pull */,
+				9BE10C21177E6592004C46DA /* Main */,
+				9BE10C1E177E64C1004C46DA /* Data Processor */,
+				9BE10C1F177E64F4004C46DA /* Map Displayer */,
+				9BE10C20177E6520004C46DA /* Settings */,
 				35B20A0316FC487B00B8BE00 /* Supporting Files */,
 			);
 			path = project3;
@@ -380,6 +371,68 @@
 				35B20A7416FC492E00B8BE00 /* whiteButtonHighlight@2x.png */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		9BE10C1E177E64C1004C46DA /* Data Processor */ = {
+			isa = PBXGroup;
+			children = (
+				9BAB800417534FAA007AFDBE /* DataViewController.h */,
+				9BAB800517534FAA007AFDBE /* DataViewController.m */,
+				9BC5DFA9174EBC2500601F81 /* history.xcdatamodeld */,
+				9BAB800617534FAA007AFDBE /* DataViewController.xib */,
+			);
+			name = "Data Processor";
+			sourceTree = "<group>";
+		};
+		9BE10C1F177E64F4004C46DA /* Map Displayer */ = {
+			isa = PBXGroup;
+			children = (
+				9BAB800B1753A2A0007AFDBE /* MapViewController.h */,
+				9BAB800C1753A2A0007AFDBE /* MapViewController.m */,
+				9BAB800D1753A2A1007AFDBE /* MapViewController.xib */,
+			);
+			name = "Map Displayer";
+			sourceTree = "<group>";
+		};
+		9BE10C20177E6520004C46DA /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				35B20A1716FC487C00B8BE00 /* FlipsideViewController.h */,
+				35B20A1816FC487C00B8BE00 /* FlipsideViewController.m */,
+				35B20A2016FC487C00B8BE00 /* FlipsideViewController.xib */,
+			);
+			name = Settings;
+			sourceTree = "<group>";
+		};
+		9BE10C21177E6592004C46DA /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				35B20A1416FC487C00B8BE00 /* MainViewController.h */,
+				35B20A1516FC487C00B8BE00 /* MainViewController.m */,
+				35B20A1A16FC487C00B8BE00 /* MainViewController_iPhone.xib */,
+				35B20A1D16FC487C00B8BE00 /* MainViewController_iPad.xib */,
+			);
+			name = Main;
+			sourceTree = "<group>";
+		};
+		9BE10C22177EEBC3004C46DA /* Calculate Pull */ = {
+			isa = PBXGroup;
+			children = (
+				9BE10C23177EEC25004C46DA /* Calculator.h */,
+				9BE10C24177EEC25004C46DA /* Calculator.m */,
+			);
+			name = "Calculate Pull";
+			sourceTree = "<group>";
+		};
+		9BE10C29177F35F8004C46DA /* External sources */ = {
+			isa = PBXGroup;
+			children = (
+				35B20A0B16FC487B00B8BE00 /* AppDelegate.h */,
+				35B20A0C16FC487C00B8BE00 /* AppDelegate.m */,
+				35B20A4216FC490900B8BE00 /* MLTableAlert.m */,
+				35B20A4316FC490900B8BE00 /* MLTableAlert.h */,
+			);
+			name = "External sources";
 			sourceTree = "<group>";
 		};
 		F31C61361712C0B9005291AA /* project3Tests */ = {
@@ -625,6 +678,7 @@
 				9BC5DFAB174EBC2500601F81 /* history.xcdatamodeld in Sources */,
 				9BAB800717534FAA007AFDBE /* DataViewController.m in Sources */,
 				9BAB800E1753A2A1007AFDBE /* MapViewController.m in Sources */,
+				9BE10C25177EEC25004C46DA /* Calculator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
