@@ -23,7 +23,7 @@
 @property (weak, nonatomic) id <MapViewControllerDelegate> delegate;
 @property (nonatomic, strong) NSMutableArray *inputData;
 @property (nonatomic, readwrite) CLLocationCoordinate2D coordinate;
-@property (nonatomic, readwrite) NSString* title;
+@property (nonatomic, readwrite) NSString* title2;
 @property (nonatomic, readwrite) NSString* subtitle;
 
 - (id)initWithCoordinates:(CLLocationCoordinate2D)location

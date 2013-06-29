@@ -9,57 +9,34 @@
 #import "FlipsideViewController.h"
 #import "DataViewController.h"
 #import "MapViewController.h"
-#import <UIKit/UIKit.h>
+#import "Calculator.h"
 #import <MapKit/MapKit.h>
-#import <CoreMotion/CoreMotion.h>
-#import "MLTableAlert.h"
-#import <CoreLocation/CoreLocation.h>
-#import "sqlite3.h"
-
-CMMotionManager *motionManager;
-NSOperationQueue *opQ;
-NSTimer *timer;
-
-// constants for 'types of load'
-extern const int ROLLING_RUBBER_CONCRETE;
-extern const int ROLLING_RUBBER_GRAVEL;
-extern const int ROLLING_RUBBER_DIRT;
-extern const int ROLLINGI_STEEL_RAIL;
-extern const int SLIDING_STEEL_STEEL;
-extern const int SLIDING_STONE_STONE;
-extern const int SLIDING_STEEL_WOOD;
-extern const int SLIDING_STEEL_ICE;
-
-// constants used for line pull calculation
-extern const double ANGLE_CONSTANT;
-extern const int ANGLE_DIVIDER;
-extern const int LINEPULL_CONSTANT;
-extern const int CONSTANT_N;
-extern const int FORMULA_DIVIDER;
 
 @class MLTableAlert;
 
-@interface MainViewController : UIViewController <FlipsideViewControllerDelegate, DataViewControllerDelegate,
+@interface MainViewController : UIViewController<FlipsideViewControllerDelegate, DataViewControllerDelegate,
 MapViewControllerDelegate>{
     IBOutlet CLLocationManager *locationManager;
     sqlite3 *db;
 }
 
 @property (weak, nonatomic) IBOutlet UILabel *infoDisplayLabel5;
+@property (nonatomic, strong) IBOutlet UILabel *resultLabel;
+@property (nonatomic, strong) IBOutlet UILabel *selectLabel;
+@property (nonatomic, weak) IBOutlet UILabel *balanceLabel;
+@property (nonatomic, weak) IBOutlet UILabel *calculatePullLabel;
+@property (nonatomic, strong) IBOutlet UITextField *rowsNumField;
+
 @property (strong, nonatomic) MLTableAlert *alert;
 @property (strong, nonatomic) MLTableAlert *account;
+
 @property (assign, nonatomic) unsigned long long amount;
 @property (assign, nonatomic) unsigned long long amount2;
 @property (assign, nonatomic) NSInteger startValue;
-@property (assign, nonatomic)double weight;
-@property (nonatomic, strong) IBOutlet UITextField *rowsNumField;
-@property (nonatomic, strong) IBOutlet UILabel *resultLabel;
-@property (nonatomic, strong) IBOutlet UILabel *selectLabel;
 @property (assign, nonatomic) NSInteger typeOfLoad2;
-@property (nonatomic, weak) IBOutlet UILabel *balanceLabel;
-@property (nonatomic, weak) IBOutlet UILabel *calculatePullLabel;
+@property (assign, nonatomic)double weight;
 
-- (IBAction)calculatePull:(id)sender;
+
 - (IBAction)showTableAlert:(id)sender;
 - (void)show;
 
@@ -70,11 +47,6 @@ MapViewControllerDelegate>{
 - (IBAction)showInfo:(id)sender;
 - (IBAction)showData:(id)sender;
 - (IBAction)showMap:(id)sender;
-
-- (NSString *)deviceLocation;
-- (NSString *)currentDate;
-- (NSString *)filePath;
-- (void) openDB;
 
 // field names: pull, date, location, weight
 - (void) createTable: (NSString *) tableName

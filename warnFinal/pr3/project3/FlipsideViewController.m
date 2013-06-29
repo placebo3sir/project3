@@ -12,6 +12,7 @@
 @interface FlipsideViewController ()
 @end
 
+#pragma clang diagnostic ignored "-Wincomplete-implementation"
 @implementation FlipsideViewController
 
 @synthesize mvc=_mvc;

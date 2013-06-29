@@ -64,7 +64,7 @@
 }
 
 - (NSInteger) numberOfSectionsInTableView:(UITableView *) tableView {
-    return 1; // return number of sections
+    return 1; // all objects in 1 view
 }
 
 - (NSString *) tableView: (UITableView *) tableView titleForHeaderInSection: (NSInteger)section {
@@ -111,7 +111,7 @@
 - (NSString *) filePath {
  NSArray *paths = NSSearchPathForDirectoriesInDomains
  (NSDocumentDirectory, NSUserDomainMask, YES);
- return [[paths objectAtIndex:0] stringByAppendingPathComponent:@"warn2.sql"];
+ return [[paths objectAtIndex:0] stringByAppendingPathComponent:@"warn3.sql"];
  }
  
  - (void)openDB {
