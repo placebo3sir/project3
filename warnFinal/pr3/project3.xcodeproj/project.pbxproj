@@ -280,16 +280,13 @@
 		35B20A0216FC487B00B8BE00 /* project3 */ = {
 			isa = PBXGroup;
 			children = (
+				9BE10C29177F35F8004C46DA /* External sources */,
 				9BE10C22177EEBC3004C46DA /* Calculate Pull */,
 				9BE10C21177E6592004C46DA /* Main */,
 				9BE10C1E177E64C1004C46DA /* Data Processor */,
 				9BE10C1F177E64F4004C46DA /* Map Displayer */,
 				9BE10C20177E6520004C46DA /* Settings */,
 				35B20A0316FC487B00B8BE00 /* Supporting Files */,
-				35B20A0B16FC487B00B8BE00 /* AppDelegate.h */,
-				35B20A0C16FC487C00B8BE00 /* AppDelegate.m */,
-				35B20A4216FC490900B8BE00 /* MLTableAlert.m */,
-				35B20A4316FC490900B8BE00 /* MLTableAlert.h */,
 			);
 			path = project3;
 			sourceTree = "<group>";
@@ -425,6 +422,17 @@
 				9BE10C24177EEC25004C46DA /* Calculator.m */,
 			);
 			name = "Calculate Pull";
+			sourceTree = "<group>";
+		};
+		9BE10C29177F35F8004C46DA /* External sources */ = {
+			isa = PBXGroup;
+			children = (
+				35B20A0B16FC487B00B8BE00 /* AppDelegate.h */,
+				35B20A0C16FC487C00B8BE00 /* AppDelegate.m */,
+				35B20A4216FC490900B8BE00 /* MLTableAlert.m */,
+				35B20A4316FC490900B8BE00 /* MLTableAlert.h */,
+			);
+			name = "External sources";
 			sourceTree = "<group>";
 		};
 		F31C61361712C0B9005291AA /* project3Tests */ = {
