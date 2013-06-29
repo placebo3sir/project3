@@ -21,23 +21,23 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "project3/FlipsideViewController.m"
-         timestampString = "394235721.476283"
+         timestampString = "394241503.758353"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "61"
-         endingLineNumber = "61">
+         startingLineNumber = "65"
+         endingLineNumber = "65">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "project3/Calculator.m"
-         timestampString = "394238161.937975"
+         timestampString = "394241182.199409"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "107"
-         endingLineNumber = "107"
-         landmarkName = "-calculatePull:result:startValue:weight:load:balanceLabel:calculatePullLabel:"
+         startingLineNumber = "108"
+         endingLineNumber = "108"
+         landmarkName = "-calculatePull:result:startValue:weight:load:degreeLabel:calculatePullLabel:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

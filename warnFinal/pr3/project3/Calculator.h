@@ -17,6 +17,8 @@
 CMMotionManager *motionManager;
 NSOperationQueue *opQ;
 NSTimer *timer;
+
+// to degrees
 #define degrees(x) (180.0 * x / M_PI)
 @class Calculator;
 
@@ -26,15 +28,17 @@ NSTimer *timer;
    sqlite3 *db;
 }
 
-- (void)calculatePull:(UITextField *) rwn result:(UILabel *) result startValue:(NSInteger) sv weight:(double) weight load:(NSInteger)load balanceLabel:(UILabel *) balanceLabel calculatePullLabel:(UILabel *) calculatePullLabel;
+- (void)calculatePull:(UITextField *) rwn result:(UILabel *) result startValue:(NSInteger) sv weight:(double) weight load:(NSInteger)load degreeLabel:(UILabel *) degreeLabel calculatePullLabel:(UILabel *) calculatePullLabel;
 - (void) openDB;
 @property (weak, nonatomic) MainViewController *m;
 @property (assign, nonatomic) unsigned long long pull;
 @property (assign, nonatomic) unsigned long long degree;
+@property (assign, nonatomic) unsigned long long metric;
 - (NSString *)deviceLocation;
 - (NSString *)currentDate;
 - (NSString *)filePath;
 
+- (void) metric:(NSInteger *)metric;
 // field names: pull, date, location, weight
 - (void) createTable: (NSString *) tableName
           withField1: (NSString *) date

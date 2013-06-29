@@ -23,7 +23,7 @@ MapViewControllerDelegate>{
 @property (weak, nonatomic) IBOutlet UILabel *infoDisplayLabel5;
 @property (nonatomic, strong) IBOutlet UILabel *resultLabel;
 @property (nonatomic, strong) IBOutlet UILabel *selectLabel;
-@property (nonatomic, strong) IBOutlet UILabel *balanceLabel;
+@property (nonatomic, strong) IBOutlet UILabel *degreeLabel;
 @property (nonatomic, strong) IBOutlet UILabel *calculatePullLabel;
 @property (nonatomic, strong) IBOutlet UITextField *rowsNumField;
 

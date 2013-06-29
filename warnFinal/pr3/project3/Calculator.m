@@ -29,6 +29,7 @@ const int FORMULA_DIVIDER = 1000;
 @implementation Calculator
 @synthesize m=_m;
 
+
 #define METERS_PER_MILE  1609.33
 
 - (NSString *) filePath {
@@ -56,7 +57,7 @@ const int FORMULA_DIVIDER = 1000;
 }
 
 // here the actual pull is calculated
-- (void)calculatePull:(UITextField*) rwn result:(UILabel *) result startValue:(NSInteger) sv weight:(double) weight load:(NSInteger)load balanceLabel:(UILabel *)balanceLabel calculatePullLabel:(UILabel *) calculatePullLabel{
+- (void)calculatePull:(UITextField*) rwn result:(UILabel *) result startValue:(NSInteger) sv weight:(double) weight load:(NSInteger)load degreeLabel:(UILabel *)degreeLabel calculatePullLabel:(UILabel *) calculatePullLabel{
 
     if ([rwn.text intValue] == 0) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Wrong input"
@@ -117,12 +118,10 @@ const int FORMULA_DIVIDER = 1000;
     
     // calculatePull amount
     self.pull= (((degrees(attitude.pitch) * ANGLE_CONSTANT / ANGLE_DIVIDER) * LINEPULL_CONSTANT) + sv + CONSTANT_N ) * ([rwn.text integerValue] / weight / FORMULA_DIVIDER);
-
-        NSLog(@"d: %f, ac: %f, ad: %d, lp: %d, sv: %d, cn: %d, rwwb: %d, w: %f, fd: %d", degrees(attitude.pitch) , ANGLE_CONSTANT , ANGLE_DIVIDER, LINEPULL_CONSTANT,sv , CONSTANT_N,[rwn.text integerValue] ,weight , FORMULA_DIVIDER);
         
     // insert into database
     NSString *sql = [NSString stringWithFormat:@"INSERT INTO WarnHistory ('date', 'pull', 'lat', 'lon', 'weight') VALUES ('%@', '%lld', '%f', '%f', '%d')", [self currentDate], self.pull, locationManager2.location.coordinate.latitude,locationManager2.location.coordinate.longitude, [rwn.text integerValue]];
-     //   NSLog(sql);
+
     char *err;
     if (sqlite3_exec(db, [sql UTF8String], NULL, NULL, &err) != SQLITE_OK) {
         sqlite3_close(db);
@@ -133,11 +132,21 @@ const int FORMULA_DIVIDER = 1000;
     }
     
     // show pull amount
-    balanceLabel.text = [NSString stringWithFormat:@"%llu °", self.degree];
+    degreeLabel.text = [NSString stringWithFormat:@"%llu °", self.degree];
+    
+    NSString *metricLabel;
+    
+    NSLog(@"%llu",self.metric);
+    
+    if (self.metric) {
+        metricLabel = @"%llu K";
+    }else{
+        metricLabel =  @"%llu N";;
+    }
     
     // show input
-    calculatePullLabel.text = [NSString stringWithFormat:@"%llu N", self.pull];
-    NSLog(calculatePullLabel.text);
+    calculatePullLabel.text = [NSString stringWithFormat:metricLabel, self.pull];
+
 }
 
 - (void)openDB {
@@ -168,5 +177,9 @@ const int FORMULA_DIVIDER = 1000;
     }else{
         NSLog(@"The table has been created");
     }
+}
+
+- (void) metric:(NSInteger *)metrics{
+    self.metric = metrics;
 }
 @end

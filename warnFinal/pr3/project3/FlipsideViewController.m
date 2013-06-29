@@ -8,6 +8,7 @@
 
 #import "FlipsideViewController.h"
 #import "MainViewController.h"
+#import "Calculator.h"
 
 @interface FlipsideViewController ()
 @end
@@ -15,6 +16,7 @@
 #pragma clang diagnostic ignored "-Wincomplete-implementation"
 @implementation FlipsideViewController
 
+Calculator *cc;
 @synthesize mvc=_mvc;
 @synthesize weight=_weight;
 
@@ -46,8 +48,10 @@
     } else if(metric.selectedSegmentIndex != 0) {
         self.weight = 2.2046;
     }
+    [cc metric:metric.selectedSegmentIndex];
     
     [self.delegate flipsideViewControllerDidFinish:self didFinishEnteringItem:self.tOL startVal:self.sV weight:self.weight];
 }
+
 
 @end

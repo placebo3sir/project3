@@ -238,7 +238,7 @@ typedef enum {
 
 - (void)show {
     // show pull amount
-    self.balanceLabel.text = [NSString stringWithFormat:@"%llu °", self.account.degree];
+    self.degreeLabel.text = [NSString stringWithFormat:@"%llu °", self.account.degree];
     // show input
     self.calculatePullLabel.text = [NSString stringWithFormat:@"%llu N", self.account.degree2];
 }
@@ -250,7 +250,7 @@ typedef enum {
     
     NSLog(@"Calculating..");
     
-    [cc calculatePull:self.rowsNumField result:self.resultLabel startValue:self.startValue weight:self.weight load:self.typeOfLoad2 balanceLabel:self.balanceLabel calculatePullLabel:self.calculatePullLabel]; // call calculator to calculate line pull
+    [cc calculatePull:self.rowsNumField result:self.resultLabel startValue:self.startValue weight:self.weight load:self.typeOfLoad2 degreeLabel:self.degreeLabel calculatePullLabel:self.calculatePullLabel]; // call calculator to calculate line pull
 }
 
 @end
