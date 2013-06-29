@@ -40,11 +40,13 @@
 - (IBAction)done:(id)sender {
     self.tOL= typeOfLoad.selectedSegmentIndex;
     self.sV = self.mvc.startValue;
+    
     if(metric.selectedSegmentIndex == 0) {
         self.weight = 1.0;
     } else if(metric.selectedSegmentIndex != 0) {
         self.weight = 2.2046;
     }
+    
     [self.delegate flipsideViewControllerDidFinish:self didFinishEnteringItem:self.tOL startVal:self.sV weight:self.weight];
 }
 

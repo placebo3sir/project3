@@ -9,13 +9,15 @@
 #import <SenTestingKit/SenTestingKit.h>
 #import "FlipsideViewController.h"
 #import "MLTableAlert.h"
+#import "Calculator.h"
+#import "MainViewController.h"
+@class project3Tests;
 
-@class MLTableAlert;
+@protocol project3TestDelegate
+- (void)project3TestsDidFinish:(project3Tests *)controller;
+@end
 
 @interface project3Tests : SenTestCase
 
-@property (weak, nonatomic) FlipsideViewController *fvc;
-@property (weak, nonatomic) MainViewController *mvc;
-@property (strong, nonatomic) MLTableAlert *account;
-
+@property (weak, nonatomic) id <project3TestDelegate> delegate;
 @end

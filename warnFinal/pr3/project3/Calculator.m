@@ -19,19 +19,17 @@ const int SLIDING_STEEL_WOOD = 600;
 const int SLIDING_STEEL_ICE = 30;
 
 // constants used for pull calculation
-const double ANGLE_CONSTANT = 2.222222;
+double ANGLE_CONSTANT = 2.222222;
 const int ANGLE_DIVIDER = 100;
 const int LINEPULL_CONSTANT = 707;
 const int CONSTANT_N = 26;
 const int FORMULA_DIVIDER = 1000;
 
-MainViewController *m ;
-
 #pragma clang diagnostic ignored "-Wincomplete-implementation"
 @implementation Calculator
+@synthesize m=_m;
 
 #define METERS_PER_MILE  1609.33
-// view lifecycle
 
 - (NSString *) filePath {
     NSArray *paths = NSSearchPathForDirectoriesInDomains
@@ -58,7 +56,17 @@ MainViewController *m ;
 }
 
 // here the actual pull is calculated
-- (void)calculatePull{
+- (void)calculatePull:(UITextField*) rwn result:(UILabel *) result startValue:(NSInteger) sv weight:(double) weight load:(NSInteger)load balanceLabel:(UILabel *)balanceLabel calculatePullLabel:(UILabel *) calculatePullLabel{
+
+    if ([rwn.text intValue] == 0) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Wrong input"
+                                                        message:@"Input can only be an integer!"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        
+        [alert show];
+    }else{
 
     CMAttitude *attitude;
     CMDeviceMotion *motion = motionManager.deviceMotion;
@@ -66,58 +74,55 @@ MainViewController *m ;
     
     // in relation to the 'type of load' selected, use switch statement
     // to use correct startinging values for calculation
-    if(m.typeOfLoad2 == 0){ // equals 'type of load' is rolling
-        switch ([m.resultLabel.text  integerValue]) {
+    if(load == 0){ // equals 'type of load' is rolling
+        switch ([result.text  integerValue]) {
             case 0:
-                m.startValue = ROLLING_RUBBER_CONCRETE;
+                sv = ROLLING_RUBBER_CONCRETE;
                 break;
             case 1:
-                m.startValue = ROLLING_RUBBER_GRAVEL;
+                sv = ROLLING_RUBBER_GRAVEL;
                 break;
             case 2:
-                m.startValue = ROLLING_RUBBER_DIRT;
+                sv = ROLLING_RUBBER_DIRT;
                 break;
             default:
-                m.startValue = ROLLINGI_STEEL_RAIL;
+                sv = ROLLINGI_STEEL_RAIL;
                 break;
         }
-    } else if(m.typeOfLoad2 != 0) { // equals 'type of load' is sliding
-        switch ([m.resultLabel.text integerValue]) {
+    } else if(load != 0) { // equals 'type of load' is sliding
+        switch ([result.text integerValue]) {
             case 0:
-                m.startValue = SLIDING_STEEL_STEEL;
+                sv = SLIDING_STEEL_STEEL;
                 break;
             case 1:
-                m.startValue = SLIDING_STONE_STONE;
+                sv = SLIDING_STONE_STONE;
                 break;
             case 2:
-                m.startValue = SLIDING_STEEL_WOOD;
+                sv = SLIDING_STEEL_WOOD;
                 break;
             default:
-                m.startValue = SLIDING_STEEL_ICE;
+                sv = SLIDING_STEEL_ICE;
                 break;
         }
     }
     
     // clear input
-    m.account.degree = 0;
-    
-    // hide keyboard
-    [m.rowsNumField resignFirstResponder];
+    self.m.account.degree = 0;
     
     // calculate pitch in degrees
-    m.account.degree += degrees(attitude.pitch);
+    self.m.account.degree += degrees(attitude.pitch);
     
     // clear input
-    m.account.degree2 = 0;
+    self.m.account.degree2 = 0;
     
     // calculatePull amount
-    m.account.degree2 = (((degrees(attitude.pitch) * ANGLE_CONSTANT / ANGLE_DIVIDER) * LINEPULL_CONSTANT) + m.startValue + CONSTANT_N ) * ([m.rowsNumField.text integerValue] / m.weight / FORMULA_DIVIDER);
+    self.m.account.degree2 = (((degrees(attitude.pitch) * ANGLE_CONSTANT / ANGLE_DIVIDER) * LINEPULL_CONSTANT) + sv + CONSTANT_N ) * ([rwn.text integerValue] / weight / FORMULA_DIVIDER);
 
+        NSLog(@"d: %d, ac: %f, ad: %d, lp: %d, sv: %d, cn: %d, rwwb: %d, w: %f, fd: %d", degrees(attitude.pitch) , ANGLE_CONSTANT , ANGLE_DIVIDER, LINEPULL_CONSTANT,sv , CONSTANT_N,[rwn.text integerValue] ,weight , FORMULA_DIVIDER);
+        
     // insert into database
-    NSString *sql = [NSString stringWithFormat:@"INSERT INTO WarnHistory ('date', 'pull', 'lat', 'lon', 'weight') VALUES ('%@', '%lld', '%f', '%f', '%d')", [self currentDate], m.account.degree2, locationManager2.location.coordinate.latitude,locationManager2.location.coordinate.longitude, [m.rowsNumField.text integerValue]];
-    
-    NSLog(@"%ld", (long)m.startValue);
-    
+    NSString *sql = [NSString stringWithFormat:@"INSERT INTO WarnHistory ('date', 'pull', 'lat', 'lon', 'weight') VALUES ('%@', '%lld', '%f', '%f', '%d')", [self currentDate], self.m.account.degree2, locationManager2.location.coordinate.latitude,locationManager2.location.coordinate.longitude, [rwn.text integerValue]];
+     //   NSLog(sql);
     char *err;
     if (sqlite3_exec(db, [sql UTF8String], NULL, NULL, &err) != SQLITE_OK) {
         sqlite3_close(db);
@@ -125,7 +130,14 @@ MainViewController *m ;
     } else {
         NSLog(@"The table has been updated");
     }
-    [m show];
+    }
+    
+    // show pull amount
+    balanceLabel.text = [NSString stringWithFormat:@"%llu °", self.m.account.degree];
+    
+    // show input
+    calculatePullLabel.text = [NSString stringWithFormat:@"%llu N", self.m.account.degree2];
+    NSLog(calculatePullLabel.text);
 }
 
 - (void)openDB {

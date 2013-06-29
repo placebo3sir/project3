@@ -23,8 +23,8 @@ MapViewControllerDelegate>{
 @property (weak, nonatomic) IBOutlet UILabel *infoDisplayLabel5;
 @property (nonatomic, strong) IBOutlet UILabel *resultLabel;
 @property (nonatomic, strong) IBOutlet UILabel *selectLabel;
-@property (nonatomic, weak) IBOutlet UILabel *balanceLabel;
-@property (nonatomic, weak) IBOutlet UILabel *calculatePullLabel;
+@property (nonatomic, strong) IBOutlet UILabel *balanceLabel;
+@property (nonatomic, strong) IBOutlet UILabel *calculatePullLabel;
 @property (nonatomic, strong) IBOutlet UITextField *rowsNumField;
 
 @property (strong, nonatomic) MLTableAlert *alert;
@@ -48,11 +48,4 @@ MapViewControllerDelegate>{
 - (IBAction)showData:(id)sender;
 - (IBAction)showMap:(id)sender;
 
-// field names: pull, date, location, weight
-- (void) createTable: (NSString *) tableName
-         withField1: (NSString *) pull
-         withField2: (NSString *) date
-         withField3: (NSString *) lat
-         withField4: (NSString *) lon
-         withField5: (NSString *) weight;
 @end

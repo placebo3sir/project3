@@ -20,19 +20,15 @@ NSTimer *timer;
 #define degrees(x) (180.0 * x / M_PI)
 @class Calculator;
 
-@protocol CalculatorDelegate
-- (void)calculatorDidFinish:(Calculator *)controller;
-@end
 
 @interface Calculator : NSObject{
     IBOutlet CLLocationManager *locationManager2;
    sqlite3 *db;
 }
 
-- (void)calculatePull;
+- (void)calculatePull:(UITextField *) rwn result:(UILabel *) result startValue:(NSInteger) sv weight:(double) weight load:(NSInteger)load balanceLabel:(UILabel *) balanceLabel calculatePullLabel:(UILabel *) calculatePullLabel;
 - (void) openDB;
-
-@property (weak, nonatomic) id <CalculatorDelegate> delegate;
+@property (weak, nonatomic) MainViewController *m;
 - (NSString *)deviceLocation;
 - (NSString *)currentDate;
 - (NSString *)filePath;

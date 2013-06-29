@@ -85,6 +85,7 @@ typedef enum {
     else // 'type of load' = sliding
         load = [NSMutableArray arrayWithObjects: @"Steel on steel", @"Stone on stone", @"Steel on Wood", @"Steel on ice", nil];
     
+    
 	// popup the table
 	self.alert = [MLTableAlert tableAlertWithTitle:@"Choose an option..." cancelButtonTitle:@"Cancel" numberOfRows:^NSInteger (NSInteger section){
         return [load count];
@@ -243,8 +244,13 @@ typedef enum {
 }
 
 - (IBAction)callCalculator:(id)sender{
+    
+    // hide keyboard
+    [self.rowsNumField resignFirstResponder];
+    
     NSLog(@"Calculating..");
-    [cc calculatePull];
+    
+    [cc calculatePull:self.rowsNumField result:self.resultLabel startValue:self.startValue weight:self.weight load:self.typeOfLoad2 balanceLabel:self.balanceLabel calculatePullLabel:self.calculatePullLabel]; // call calculator to calculate line pull
     [self show];
 }
 
