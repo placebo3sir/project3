@@ -282,8 +282,8 @@
 			children = (
 				9BE10C29177F35F8004C46DA /* External sources */,
 				9BE10C22177EEBC3004C46DA /* Calculate Pull */,
-				9BE10C21177E6592004C46DA /* Main */,
-				9BE10C1E177E64C1004C46DA /* Data Processor */,
+				9BE10C21177E6592004C46DA /* MainViewController */,
+				9BE10C1E177E64C1004C46DA /* DataViewController */,
 				9BE10C1F177E64F4004C46DA /* Map Displayer */,
 				9BE10C20177E6520004C46DA /* Settings */,
 				35B20A0316FC487B00B8BE00 /* Supporting Files */,
@@ -373,7 +373,7 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		9BE10C1E177E64C1004C46DA /* Data Processor */ = {
+		9BE10C1E177E64C1004C46DA /* DataViewController */ = {
 			isa = PBXGroup;
 			children = (
 				9BAB800417534FAA007AFDBE /* DataViewController.h */,
@@ -381,7 +381,7 @@
 				9BC5DFA9174EBC2500601F81 /* history.xcdatamodeld */,
 				9BAB800617534FAA007AFDBE /* DataViewController.xib */,
 			);
-			name = "Data Processor";
+			name = DataViewController;
 			sourceTree = "<group>";
 		};
 		9BE10C1F177E64F4004C46DA /* Map Displayer */ = {
@@ -404,7 +404,7 @@
 			name = Settings;
 			sourceTree = "<group>";
 		};
-		9BE10C21177E6592004C46DA /* Main */ = {
+		9BE10C21177E6592004C46DA /* MainViewController */ = {
 			isa = PBXGroup;
 			children = (
 				35B20A1416FC487C00B8BE00 /* MainViewController.h */,
@@ -412,7 +412,7 @@
 				35B20A1A16FC487C00B8BE00 /* MainViewController_iPhone.xib */,
 				35B20A1D16FC487C00B8BE00 /* MainViewController_iPad.xib */,
 			);
-			name = Main;
+			name = MainViewController;
 			sourceTree = "<group>";
 		};
 		9BE10C22177EEBC3004C46DA /* Calculate Pull */ = {

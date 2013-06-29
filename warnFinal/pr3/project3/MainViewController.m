@@ -115,97 +115,90 @@ typedef enum {
 	[self.alert show];
 }
 
-// flipside View Controller
-- (void)flipsideViewControllerDidFinish:(FlipsideViewController *)controller didFinishEnteringItem:(NSInteger)typeOfLoad startVal:(NSInteger )sV weight:(double)weight;
-{
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        
-        [self dismissViewControllerAnimated:YES completion:nil];
-        self.typeOfLoad2 = typeOfLoad;
-        self.startValue = sV;
-        self.weight = weight;
-        
-    } else {
-        [self.flipsidePopoverController dismissPopoverAnimated:YES];
-    }
-}
-
-// settings for the input
-- (IBAction)showInfo:(id)sender {
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        
-        FlipsideViewController *controller = [[FlipsideViewController alloc] initWithNibName:@"FlipsideViewController" bundle:nil];
-        
-        controller.delegate = self;
-        controller.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-        [self presentViewController:controller animated:YES completion:nil];
-        
-    } else {
-        if (!self.flipsidePopoverController) {
-            FlipsideViewController *controller = [[FlipsideViewController alloc] initWithNibName:@"FlipsideViewController" bundle:nil];
-            controller.delegate = self;
-            self.flipsidePopoverController = [[UIPopoverController alloc] initWithContentViewController:controller];
-        }
-        if ([self.flipsidePopoverController isPopoverVisible]) {
-            [self.flipsidePopoverController dismissPopoverAnimated:YES];
-            
-        } else {
-            [self.flipsidePopoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-        }
-    }
-}
-
-// data View Controller
-- (void)dataViewControllerDidFinish:(DataViewController *)controller; {
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        [self dismissViewControllerAnimated:YES completion:nil];
-    } else {
-        [self.dataPopoverController dismissPopoverAnimated:YES];
-    }
-}
-
 // show the data in a table
-- (IBAction)showData:(id)sender {
-//    SelectedButton *sB;
+- (IBAction)showView:(id)sender {
+
     // determine sender button ie info, history, showmap
     UIButton * buttonId = (UIButton * ) sender; // buttonId.tag
     
     NSString *text;
     
+    DataViewController *controller;
+    FlipsideViewController *controller2;
+    MapViewController *controller3;
+    
     switch(buttonId.tag)
 	{
-		case info:
+		case info:{
 			text = @"FlipsideViewController";
+            controller2 = [[FlipsideViewController alloc] initWithNibName:text bundle:nil];
+            controller2.delegate = self;
+            
+            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+                controller2.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+                [self presentViewController:controller2 animated:YES completion:nil];
+                
+            } else {
+                if (!self.flipsidePopoverController) {
+                    self.flipsidePopoverController = [[UIPopoverController alloc] initWithContentViewController:controller2];
+                }
+                if ([self.flipsidePopoverController isPopoverVisible]) {
+                    [self.flipsidePopoverController dismissPopoverAnimated:YES];
+                    
+                } else {
+                    [self.flipsidePopoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+                }
+            }
 			break;
+        }
             
 		case history:
+        {
 			text = @"DataViewController";
-			break;
+            controller = [[DataViewController alloc] initWithNibName:text bundle:nil];
+            controller.delegate = self;
             
-		case map:
-			text = @"MapViewController";
+            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+                controller.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+                [self presentViewController:controller animated:YES completion:nil];
+            } else {
+                if (!self.dataPopoverController) {
+                    self.dataPopoverController = [[UIPopoverController alloc] initWithContentViewController:controller];
+                }
+                if ([self.dataPopoverController isPopoverVisible]) {
+                    [self.dataPopoverController dismissPopoverAnimated:YES];
+                } else {
+                    [self.dataPopoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+                }
+            }
 			break;
+        }
+            
+		case map:// show the place on the map where the pull has been calculated
+        {
+			text = @"MapViewController";
+            controller3 = [[MapViewController alloc] initWithNibName:text bundle:nil];
+            controller3.delegate = self;
+            
+            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+                controller3.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+                [self presentViewController:controller3 animated:YES completion:nil];
+                
+            } else {
+                if (!self.mapPopoverController) {
+                    self.mapPopoverController = [[UIPopoverController alloc] initWithContentViewController:controller3];
+                }
+                if ([self.mapPopoverController isPopoverVisible]) {
+                    [self.mapPopoverController dismissPopoverAnimated:YES];
+                } else {
+                    [self.mapPopoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+                }
+            }
+			break;
+        }
             
 	}
     
-    
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        DataViewController *controller = [[DataViewController alloc] initWithNibName:text bundle:nil];
-        controller.delegate = self;
-        controller.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-        [self presentViewController:controller animated:YES completion:nil];
-    } else {
-        if (!self.dataPopoverController) {
-            DataViewController *controller = [[DataViewController alloc] initWithNibName:text bundle:nil];
-            controller.delegate = self;
-            self.dataPopoverController = [[UIPopoverController alloc] initWithContentViewController:controller];
-        }
-        if ([self.dataPopoverController isPopoverVisible]) {
-            [self.dataPopoverController dismissPopoverAnimated:YES];
-        } else {
-            [self.dataPopoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-        }
-    }
 }
 
 // map View Controller
@@ -218,25 +211,27 @@ typedef enum {
     }
 }
 
-// show the place on the map where the pull has been calculated
-- (IBAction)showMap:(id)sender {
+// data View Controller
+- (void)dataViewControllerDidFinish:(DataViewController *)controller; {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        MapViewController *controller3 = [[MapViewController alloc] initWithNibName:@"MapViewController" bundle:nil];
-        controller3.delegate = self;
-        controller3.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-        [self presentViewController:controller3 animated:YES completion:nil];
+        [self dismissViewControllerAnimated:YES completion:nil];
+    } else {
+        [self.dataPopoverController dismissPopoverAnimated:YES];
+    }
+}
+
+// flipside View Controller
+- (void)flipsideViewControllerDidFinish:(FlipsideViewController *)controller didFinishEnteringItem:(NSInteger)typeOfLoad startVal:(NSInteger )sV weight:(double)weight;
+{
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        
+        [self dismissViewControllerAnimated:YES completion:nil];
+        self.typeOfLoad2 = typeOfLoad;
+        self.startValue = sV;
+        self.weight = weight;
         
     } else {
-        if (!self.mapPopoverController) {
-            MapViewController *controller3 = [[MapViewController alloc] initWithNibName:@"MapViewController" bundle:nil];
-            controller3.delegate = self;
-            self.mapPopoverController = [[UIPopoverController alloc] initWithContentViewController:controller3];
-        }
-        if ([self.mapPopoverController isPopoverVisible]) {
-            [self.mapPopoverController dismissPopoverAnimated:YES];
-        } else {
-            [self.mapPopoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-        }
+        [self.flipsidePopoverController dismissPopoverAnimated:YES];
     }
 }
 
