@@ -263,14 +263,14 @@
 
 @synthesize degree=_degree;
 @synthesize capacity2=_capacity2;
-@synthesize degree2=_degree2;
+@synthesize pullForce=_pullForce;
 @synthesize capacity=_capacity;
 
 - (id)init {
     if (self = [super init]) {
         self.degree = 0;
         self.capacity2 = 0;
-        self.degree2 = 0;
+        self.pullForce = 0;
          self.capacity = 0;
     }
     return self;

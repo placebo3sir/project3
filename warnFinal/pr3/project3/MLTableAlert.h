@@ -26,7 +26,7 @@ typedef void (^MLTableAlertCompletionBlock)(void);
 @property (nonatomic, strong) MLTableAlertRowSelectionBlock selectionBlock;	// Called when a row in table view is pressed
 @property (assign, nonatomic) unsigned long long degree;
 @property (assign, nonatomic) unsigned long long capacity;
-@property (assign, nonatomic) unsigned long long degree2;
+@property (assign, nonatomic) unsigned long long pullForce;
 @property (assign, nonatomic) unsigned long long capacity2;
 @property (assign, nonatomic) unsigned long long typeOfLoad;
 

@@ -34,7 +34,7 @@ typedef enum {
     cc = [[Calculator alloc] init];
     [cc openDB];
     
-        [cc createTable: @"WarnHistory" withField1: @"Date" withField2:@"Pull" withField3:@"Lat" withField4:@"Lon" withField5:@"Weight"];
+    [cc createTable: @"WarnHistory" withField1: @"Date" withField2:@"Pull" withField3:@"Lat" withField4:@"Lon" withField5:@"Weight"];
     
 	// proces device motion (angle)
     motionManager = [[CMMotionManager alloc] init];
@@ -80,45 +80,52 @@ typedef enum {
 -(IBAction)showTableAlert:(id)sender {
     NSMutableArray *load;
     
-    if(self.typeOfLoad2 == 0) // 'type of load' = rolling
+    if(self.typeOfLoad2 == 0)
+    { // 'type of load' = rolling
         load = [NSMutableArray arrayWithObjects: @"Concrete", @"Gravel", @"Dirt", @"Steel rail", nil];
-    else // 'type of load' = sliding
+    }else
+    {// 'type of load' = sliding
         load = [NSMutableArray arrayWithObjects: @"Steel on steel", @"Stone on stone", @"Steel on Wood", @"Steel on ice", nil];
-    
+    }
     
 	// popup the table
 	self.alert = [MLTableAlert tableAlertWithTitle:@"Choose an option..." cancelButtonTitle:@"Cancel" numberOfRows:^NSInteger (NSInteger section){
         return [load count];
-    }
-                                          andCells:^UITableViewCell* (MLTableAlert *anAlert, NSIndexPath *indexPath) {
-                                              static NSString *CellIdentifier = @"CellIdentifier";
-                                              UITableViewCell *cell = [anAlert.table dequeueReusableCellWithIdentifier:CellIdentifier];
-                                              if (cell == nil)
-                                                  cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-                                              
-                                              cell.textLabel.text = [NSString stringWithFormat:@"%d. %@", indexPath.row+1,  [load objectAtIndex:indexPath.row] ];
-                                              
-                                              return cell;
-                                          }];
+    } andCells:^UITableViewCell* (MLTableAlert *anAlert, NSIndexPath *indexPath) {
+        
+        static NSString *CellIdentifier = @"CellIdentifier";
+        UITableViewCell *cell = [anAlert.table dequeueReusableCellWithIdentifier:CellIdentifier];
+        
+        if (cell == nil)
+        {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        }
+        
+        cell.textLabel.text = [NSString stringWithFormat:@"%d. %@", indexPath.row+1,  [load objectAtIndex:indexPath.row] ];
+        
+        return cell;
+    }];
     
     // configure actions to perform
     [self.alert configureSelectionBlock:^(NSIndexPath *selectedIndex) {
         
-    self.resultLabel.text = [NSString stringWithFormat:@"%d", selectedIndex.row];
-    self.selectLabel.text = [NSString stringWithFormat:@"%@", [load objectAtIndex:selectedIndex.row] ];
+        self.resultLabel.text = [NSString stringWithFormat:@"%d", selectedIndex.row];
+        self.selectLabel.text = [NSString stringWithFormat:@"%@", [load objectAtIndex:selectedIndex.row] ];
         
     } andCompletionBlock:^{
         
         self.resultLabel.text = @"Cancel Button Pressed\nNo Cells Selected";
     }];
+    
 	// Setting custom popup height
 	self.alert.height = 350;
+    
 	[self.alert show];
 }
 
 // show the data in a table
 - (IBAction)showView:(id)sender {
-
+    
     // determine sender button ie info, history, showmap
     UIButton * buttonId = (UIButton * ) sender; // buttonId.tag
     
@@ -203,17 +210,22 @@ typedef enum {
 }
 
 // map View Controller
-- (void)mapViewControllerDidFinish:(MapViewController *)controller;
+- (void)mapViewControllerDidFinish:(MapViewController *)controller
 {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        
         [self dismissViewControllerAnimated:YES completion:nil];
+        
     } else {
+        
         [self.mapPopoverController dismissPopoverAnimated:YES];
+        
     }
 }
 
 // data View Controller
-- (void)dataViewControllerDidFinish:(DataViewController *)controller; {
+- (void)dataViewControllerDidFinish:(DataViewController *)controller {
+    
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         [self dismissViewControllerAnimated:YES completion:nil];
     } else {
@@ -222,7 +234,7 @@ typedef enum {
 }
 
 // flipside View Controller
-- (void)flipsideViewControllerDidFinish:(FlipsideViewController *)controller didFinishEnteringItem:(NSInteger)typeOfLoad startVal:(NSInteger )sV weight:(double)weight;
+- (void)flipsideViewControllerDidFinish:(FlipsideViewController *)controller didFinishEnteringItem:(NSInteger)typeOfLoad startVal:(NSInteger )sV weight:(double)weight
 {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         
@@ -238,10 +250,12 @@ typedef enum {
 
 // show the result in the view
 - (void)show {
+    
     // show pull amount
     self.degreeLabel.text = [NSString stringWithFormat:@"%llu °", self.account.degree];
     // show input
-    self.calculatePullLabel.text = [NSString stringWithFormat:@"%llu N", self.account.degree2];
+    self.calculatePullLabel.text = [NSString stringWithFormat:@"%llu N", self.account.pullForce];
+    
 }
 
 // Call the calculator
@@ -252,9 +266,14 @@ typedef enum {
     
     NSLog(@"Calculating..");
     
-    [cc calculatePull:self.rowsNumField result:self.resultLabel startValue:self.startValue weight:self.weight load:self.typeOfLoad2 degreeLabel:self.degreeLabel calculatePullLabel:self.calculatePullLabel]; // call calculator to calculate line pull
+     // call calculator to calculate line pull
+    [cc calculatePull:self.rowsNumField result:self.resultLabel
+           startValue:self.startValue weight:self.weight load:self.typeOfLoad2
+          degreeLabel:self.degreeLabel calculatePullLabel:self.calculatePullLabel];
     
-   self.rowsNumField.text = @"";
+    NSLog(@"Calculating done!");
+    
+    self.rowsNumField.text = @"";
 }
 
 @end

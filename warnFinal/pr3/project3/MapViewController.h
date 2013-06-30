@@ -25,13 +25,15 @@
 @property (nonatomic, readwrite) CLLocationCoordinate2D coordinate;
 @property (nonatomic, readwrite) NSString* title2;
 @property (nonatomic, readwrite) NSString* subtitle;
+@property (weak, nonatomic) IBOutlet MKMapView *mapView;
 
 - (id)initWithCoordinates:(CLLocationCoordinate2D)location
                 placeName:(NSString *)placeName
               description:(NSString *)description;
 
-@property (weak, nonatomic) IBOutlet MKMapView *mapView;
+
 - (IBAction)done:(id)sender;
 - (NSString *) filePath;
 - (void) openDB;
+
 @end

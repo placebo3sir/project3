@@ -158,7 +158,7 @@ const int FORMULA_DIVIDER = 1000;
     }
 }
 
-// field names: pull, date, location, weight
+// field names: pull, date, location, lat, lon, weight
 - (void) createTable: (NSString *) tableName
           withField1: (NSString *) date
           withField2: (NSString *) pull

@@ -78,7 +78,6 @@
 }
 
 - (NSInteger *) tableView: (UITableView *) tableView numberOfRowsInSection: (NSInteger)section {
-    
     return [inputData count];  // return number of rows in sections
 }
 
@@ -88,9 +87,9 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier /*forIndexPath:indexPath*/];
     
     if(cell == nil) {
-        
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
+    
     //configure cell
     UIFont *myFont = [ UIFont fontWithName: @"Arial" size: 10.0 ];
     cell.textLabel.font  = myFont;
@@ -100,8 +99,7 @@
 }
 
 - (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    [super didReceiveMemoryWarning]; // Dispose of any resources that can be recreated.
 }
 
 // return to sender
@@ -124,7 +122,7 @@
 
 // Delete everything from database
 - (IBAction)deleteAllTableData:(id)sender {
-    NSString * tableName = @"WarnHistory";
+    NSString * tableName = @"Warn History";
     
     char *err;
     NSString *sql = [NSString stringWithFormat:@"DELETE * FROM %@",

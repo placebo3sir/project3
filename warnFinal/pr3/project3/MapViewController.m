@@ -27,25 +27,33 @@
               description:(NSString *)description;
 {
     self = [super init];
+    
     if (self) {
         coordinate = location;
         title2 = placeName;
         subtitle = description;
     }
+    
     return self;
 }
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    
     if (self) {
         self.contentSizeForViewInPopover = CGSizeMake(320.0, 480.0);
     }
+    
     return self;
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     inputData = [[NSMutableArray alloc] init];
+    
     [self openDB];
+    
     NSString *sql = [NSString stringWithFormat:@"SELECT * FROM WarnHistory"];
     sqlite3_stmt *statement;
     
@@ -81,26 +89,31 @@
             [inputData addObject:str];
         }
     }
+    
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-- (IBAction)done:(id)sender {
+- (IBAction)done:(id)sender
+{
     [self.delegate dataViewControllerDidFinish:self];
 }
 
-- (NSString *) filePath {
+- (NSString *) filePath
+{
     NSArray *paths = NSSearchPathForDirectoriesInDomains
     (NSDocumentDirectory, NSUserDomainMask, YES);
     return [[paths objectAtIndex:0] stringByAppendingPathComponent:@"warn4.sql"];
 }
 
-- (void)openDB {
+- (void)openDB
+{
     if (sqlite3_open([[self filePath] UTF8String], &db) != SQLITE_OK) {
         sqlite3_close(db);
         NSAssert(0, @"Could not connect to database");
@@ -108,10 +121,12 @@
 }
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView
-            viewForAnnotation:(id <MKAnnotation>)annotation {
+            viewForAnnotation:(id <MKAnnotation>)annotation
+{
     if ([annotation isKindOfClass:[MKUserLocation class]]) {
         return nil;
     }
+    
     static NSString* myIdentifier = @"myIndentifier";
     MKPinAnnotationView* pinView = (MKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:myIdentifier];
     
@@ -124,6 +139,7 @@
         pinView.pinColor = MKPinAnnotationColorRed;
         pinView.animatesDrop = YES;
     }
+    
     return pinView;
 }
 
