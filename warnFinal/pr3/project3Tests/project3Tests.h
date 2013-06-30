@@ -11,13 +11,23 @@
 #import "MLTableAlert.h"
 #import "Calculator.h"
 #import "MainViewController.h"
+#import "AppDelegate.h"
+
 @class project3Tests;
 
 @protocol project3TestDelegate
-- (void)project3TestsDidFinish:(project3Tests *)controller;
 @end
 
-@interface project3Tests : SenTestCase
+@interface project3Tests : SenTestCase{
+    MainViewController *mvc;
+    FlipsideViewController *fvc;
+    Calculator *cc;
+    DataViewController *dvc;
+    MapViewController *mapvc;
+    
+    AppDelegate *appDelegate;
+    UINavigationController* mainNavigationController;
+}
 
-@property (weak, nonatomic) id <project3TestDelegate> delegate;
+
 @end

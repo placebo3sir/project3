@@ -29,11 +29,13 @@ NSTimer *timer;
 }
 
 - (void)calculatePull:(UITextField *) rwn result:(UILabel *) result startValue:(NSInteger) sv weight:(double) weight load:(NSInteger)load degreeLabel:(UILabel *) degreeLabel calculatePullLabel:(UILabel *) calculatePullLabel;
-- (void) openDB;
+- (void) openDB; // Open database for read write data about pull (lat, lon, pull)
+
 @property (weak, nonatomic) MainViewController *m;
 @property (assign, nonatomic) unsigned long long pull;
 @property (assign, nonatomic) unsigned long long degree;
 @property (assign, nonatomic) unsigned long long metric;
+
 - (NSString *)deviceLocation;
 - (NSString *)currentDate;
 - (NSString *)filePath;

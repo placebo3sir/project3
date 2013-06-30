@@ -4,7 +4,7 @@
 //
 //  Created by goblin3 on 5/27/13.
 //  Copyright (c) 2013 Osewa. All rights reserved.
-//
+//  openDB, filePath, done similar to Calculator, to allow moving
 
 #import "MapViewController.h"
 
@@ -47,8 +47,6 @@
     [self openDB];
     NSString *sql = [NSString stringWithFormat:@"SELECT * FROM WarnHistory"];
     sqlite3_stmt *statement;
-    
-//    CLLocationCoordinate2D *coordinate
     
     if (sqlite3_prepare_v2(db, [sql UTF8String], -1, &statement, nil) == SQLITE_OK) {
         while (sqlite3_step(statement) == SQLITE_ROW) {
@@ -98,7 +96,7 @@
 - (NSString *) filePath {
     NSArray *paths = NSSearchPathForDirectoriesInDomains
     (NSDocumentDirectory, NSUserDomainMask, YES);
-    return [[paths objectAtIndex:0] stringByAppendingPathComponent:@"warn2.sql"];
+    return [[paths objectAtIndex:0] stringByAppendingPathComponent:@"warn4.sql"];
 }
 
 - (void)openDB {

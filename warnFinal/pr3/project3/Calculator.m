@@ -32,10 +32,11 @@ const int FORMULA_DIVIDER = 1000;
 
 #define METERS_PER_MILE  1609.33
 
+// the path to the database
 - (NSString *) filePath {
     NSArray *paths = NSSearchPathForDirectoriesInDomains
     (NSDocumentDirectory, NSUserDomainMask, YES);
-    return [[paths objectAtIndex:0] stringByAppendingPathComponent:@"warn3.sql"];
+    return [[paths objectAtIndex:0] stringByAppendingPathComponent:@"warn4.sql"];
 }
 
 
@@ -58,7 +59,7 @@ const int FORMULA_DIVIDER = 1000;
 
 // here the actual pull is calculated
 - (void)calculatePull:(UITextField*) rwn result:(UILabel *) result startValue:(NSInteger) sv weight:(double) weight load:(NSInteger)load degreeLabel:(UILabel *)degreeLabel calculatePullLabel:(UILabel *) calculatePullLabel{
-
+    
     if ([rwn.text intValue] == 0) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Wrong input"
                                                         message:@"Input can only be an integer!"
@@ -68,67 +69,67 @@ const int FORMULA_DIVIDER = 1000;
         
         [alert show];
     }else{
-
-    CMAttitude *attitude;
-    CMDeviceMotion *motion = motionManager.deviceMotion;
-    attitude = motion.attitude;
-    
-    // in relation to the 'type of load' selected, use switch statement
-    // to use correct startinging values for calculation
-    if(load == 0){ // equals 'type of load' is rolling
-        switch ([result.text  integerValue]) {
-            case 0:
-                sv = ROLLING_RUBBER_CONCRETE;
-                break;
-            case 1:
-                sv = ROLLING_RUBBER_GRAVEL;
-                break;
-            case 2:
-                sv = ROLLING_RUBBER_DIRT;
-                break;
-            default:
-                sv = ROLLINGI_STEEL_RAIL;
-                break;
-        }
-    } else if(load != 0) { // equals 'type of load' is sliding
-        switch ([result.text integerValue]) {
-            case 0:
-                sv = SLIDING_STEEL_STEEL;
-                break;
-            case 1:
-                sv = SLIDING_STONE_STONE;
-                break;
-            case 2:
-                sv = SLIDING_STEEL_WOOD;
-                break;
-            default:
-                sv = SLIDING_STEEL_ICE;
-                break;
-        }
-    }
-    
-    // clear input
-    self.degree = 0;
-    
-    // calculate pitch in degrees
-    self.degree += degrees(attitude.pitch);
-    
-    // clear input
-    self.pull= 0;
-    
-    // calculatePull amount
-    self.pull= (((degrees(attitude.pitch) * ANGLE_CONSTANT / ANGLE_DIVIDER) * LINEPULL_CONSTANT) + sv + CONSTANT_N ) * ([rwn.text integerValue] / weight / FORMULA_DIVIDER);
         
-    // insert into database
-    NSString *sql = [NSString stringWithFormat:@"INSERT INTO WarnHistory ('date', 'pull', 'lat', 'lon', 'weight') VALUES ('%@', '%lld', '%f', '%f', '%d')", [self currentDate], self.pull, locationManager2.location.coordinate.latitude,locationManager2.location.coordinate.longitude, [rwn.text integerValue]];
-
-    char *err;
-    if (sqlite3_exec(db, [sql UTF8String], NULL, NULL, &err) != SQLITE_OK) {
-        sqlite3_close(db);
-        NSAssert(0, @"Could not insert into the requested table");
-    } else {
-        NSLog(@"The table has been updated");
-    }
+        CMAttitude *attitude;
+        CMDeviceMotion *motion = motionManager.deviceMotion;
+        attitude = motion.attitude;
+        
+        // in relation to the 'type of load' selected, use switch statement
+        // to use correct startinging values for calculation
+        if(load == 0){ // equals 'type of load' is rolling
+            switch ([result.text  integerValue]) {
+                case 0:
+                    sv = ROLLING_RUBBER_CONCRETE;
+                    break;
+                case 1:
+                    sv = ROLLING_RUBBER_GRAVEL;
+                    break;
+                case 2:
+                    sv = ROLLING_RUBBER_DIRT;
+                    break;
+                default:
+                    sv = ROLLINGI_STEEL_RAIL;
+                    break;
+            }
+        } else if(load != 0) { // equals 'type of load' is sliding
+            switch ([result.text integerValue]) {
+                case 0:
+                    sv = SLIDING_STEEL_STEEL;
+                    break;
+                case 1:
+                    sv = SLIDING_STONE_STONE;
+                    break;
+                case 2:
+                    sv = SLIDING_STEEL_WOOD;
+                    break;
+                default:
+                    sv = SLIDING_STEEL_ICE;
+                    break;
+            }
+        }
+        
+        // clear input
+        self.degree = 0;
+        
+        // calculate pitch in degrees
+        self.degree += degrees(attitude.pitch);
+        
+        // clear input
+        self.pull= 0;
+        
+        // calculatePull amount
+        self.pull= (((degrees(attitude.pitch) * ANGLE_CONSTANT / ANGLE_DIVIDER) * LINEPULL_CONSTANT) + sv + CONSTANT_N ) * ([rwn.text integerValue] / weight / FORMULA_DIVIDER);
+        
+        // insert into database
+        NSString *sql = [NSString stringWithFormat:@"INSERT INTO WarnHistory ('date', 'pull', 'lat', 'lon', 'weight') VALUES ('%@', '%lld', '%f', '%f', '%d')", [self currentDate], self.pull, locationManager2.location.coordinate.latitude,locationManager2.location.coordinate.longitude, [rwn.text integerValue]];
+        
+        char *err;
+        if (sqlite3_exec(db, [sql UTF8String], NULL, NULL, &err) != SQLITE_OK) {
+            sqlite3_close(db);
+            NSAssert(0, @"Could not insert into the requested table");
+        } else {
+            NSLog(@"The table has been updated");
+        }
     }
     
     // show pull amount
@@ -136,8 +137,7 @@ const int FORMULA_DIVIDER = 1000;
     
     NSString *metricLabel;
     
-    NSLog(@"%llu",self.metric);
-    
+    // Decide which metric to display
     if (self.metric) {
         metricLabel = @"%llu K";
     }else{
@@ -146,7 +146,7 @@ const int FORMULA_DIVIDER = 1000;
     
     // show input
     calculatePullLabel.text = [NSString stringWithFormat:metricLabel, self.pull];
-
+    
 }
 
 - (void)openDB {

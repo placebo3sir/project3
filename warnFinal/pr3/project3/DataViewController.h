@@ -11,7 +11,6 @@
 
 
 @class DataViewController;
-//@class MainViewController;
 
 @protocol DataViewControllerDelegate
 - (void)dataViewControllerDidFinish:(DataViewController *)controller;

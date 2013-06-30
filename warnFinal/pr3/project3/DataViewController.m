@@ -54,7 +54,7 @@
                 char *field5 = (char *) sqlite3_column_text(statement, 4);
                 NSString *fieldStr5 = [[NSString alloc] initWithUTF8String:field5];
     
-                NSString *str = [[NSString alloc] initWithFormat:@"%@ - %@ - (%@, %@) - %@ kilograms", fieldStr, fieldStr2, fieldStr3, fieldStr4, fieldStr5 ];
+                NSString *str = [[NSString alloc] initWithFormat:@"%@ - %@ N- (%@, %@) - %@ kilograms", fieldStr, fieldStr2, fieldStr3, fieldStr4, fieldStr5 ];
     
                 [inputData addObject:str];
             }
@@ -64,7 +64,7 @@
 }
 
 - (NSInteger) numberOfSectionsInTableView:(UITableView *) tableView {
-    return 1; // all objects in 1 view
+    return 1; // all data objects in 1 view
 }
 
 - (NSString *) tableView: (UITableView *) tableView titleForHeaderInSection: (NSInteger)section {
@@ -104,6 +104,7 @@
     // Dispose of any resources that can be recreated.
 }
 
+// return to sender
 - (IBAction)done:(id)sender {
     [self.delegate dataViewControllerDidFinish:self];
 }
@@ -111,7 +112,7 @@
 - (NSString *) filePath {
  NSArray *paths = NSSearchPathForDirectoriesInDomains
  (NSDocumentDirectory, NSUserDomainMask, YES);
- return [[paths objectAtIndex:0] stringByAppendingPathComponent:@"warn3.sql"];
+ return [[paths objectAtIndex:0] stringByAppendingPathComponent:@"warn4.sql"];
  }
  
  - (void)openDB {
@@ -121,6 +122,7 @@
     }
  }
 
+// Delete everything from database
 - (IBAction)deleteAllTableData:(id)sender {
     NSString * tableName = @"WarnHistory";
     
