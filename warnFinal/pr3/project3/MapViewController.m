@@ -4,7 +4,8 @@
 //
 //  Created by goblin3 on 5/27/13.
 //  Copyright (c) 2013 Osewa. All rights reserved.
-//  openDB, filePath, done similar to Calculator, to allow moving
+//  openDB, filePath, done similar to Calculator and DataViewController,
+// otherwise writing and reading the database does not work
 
 #import "MapViewController.h"
 

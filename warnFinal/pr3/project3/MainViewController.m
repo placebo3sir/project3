@@ -124,8 +124,8 @@ typedef enum {
     
     NSString *text;
     
-    DataViewController *controller;
     FlipsideViewController *controller2;
+    DataViewController *controller;
     MapViewController *controller3;
     
     switch(buttonId.tag)
@@ -236,6 +236,7 @@ typedef enum {
     }
 }
 
+// show the result in the view
 - (void)show {
     // show pull amount
     self.degreeLabel.text = [NSString stringWithFormat:@"%llu °", self.account.degree];
@@ -243,6 +244,7 @@ typedef enum {
     self.calculatePullLabel.text = [NSString stringWithFormat:@"%llu N", self.account.degree2];
 }
 
+// Call the calculator
 - (IBAction)callCalculator:(id)sender{
     
     // hide keyboard
@@ -251,6 +253,8 @@ typedef enum {
     NSLog(@"Calculating..");
     
     [cc calculatePull:self.rowsNumField result:self.resultLabel startValue:self.startValue weight:self.weight load:self.typeOfLoad2 degreeLabel:self.degreeLabel calculatePullLabel:self.calculatePullLabel]; // call calculator to calculate line pull
+    
+   self.rowsNumField.text = @"";
 }
 
 @end

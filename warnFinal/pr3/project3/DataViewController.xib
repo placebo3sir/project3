@@ -64,6 +64,7 @@
 						<string key="NSFrame">{{0, 44}, {320, 444}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<object class="NSColor" key="IBUIBackgroundColor" id="964797599">
 							<int key="NSColorSpace">3</int>
@@ -93,7 +94,7 @@
 										<string key="NSFrame">{{6, 5}, {68, 34}}</string>
 										<reference key="NSSuperview" ref="963812619"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="681596808"/>
+										<reference key="NSNextKeyView"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<bool key="IBUIOpaque">NO</bool>
 										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -685,7 +686,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">309</int>
+			<int key="maxID">318</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">

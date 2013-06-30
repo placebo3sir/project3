@@ -61,12 +61,12 @@ const int FORMULA_DIVIDER = 1000;
 - (void)calculatePull:(UITextField*) rwn result:(UILabel *) result startValue:(NSInteger) sv weight:(double) weight load:(NSInteger)load degreeLabel:(UILabel *)degreeLabel calculatePullLabel:(UILabel *) calculatePullLabel{
     
     if ([rwn.text intValue] == 0) {
+        
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Wrong input"
                                                         message:@"Input can only be an integer!"
                                                        delegate:nil
                                               cancelButtonTitle:@"OK"
                                               otherButtonTitles:nil];
-        
         [alert show];
     }else{
         
